@@ -1,0 +1,110 @@
+PASS  Ex3-1 牆 Pm psf：程式 792.8／原書 793
+PASS  Ex3-2 牆 Pm（γh 上限）：程式 1200／原書 1200
+PASS  Ex3-2 公式值：程式 1608／原書 1608
+PASS  Ex3-3 R ft/hr：程式 6.48／原書 6.5
+PASS  Ex3-3 Pm（R=6.5）：程式 881.2／原書 882
+PASS  Ex3-4 柱 Pm：程式 1410／原書 1410
+PASS  Ex3-5 柱 Pm（γh 上限）：程式 1800／原書 1800
+PASS  Ex3-6 泵送 1.25γh：程式 1875／原書 1875
+PASS  Ex3-9 板 DL+LL psf：程式 135／原書 135
+PASS  Ex3-7 集中載重 lb：程式 7.4e+04／原書 7.4e+04
+PASS  Ex3-8 梁底線載重 plf：程式 473.3／原書 470
+PASS  Table3-6 8 in. 機動 psf：程式 175／原書 175
+PASS  Ex4-1 F'b psi：程式 1275／原書 1275
+PASS  Ex4-1 F'v psi：程式 187.5／原書 187.5
+PASS  Ex4-2 F'b psi：程式 1833／原書 1832
+PASS  Ex5-13 彎曲容許壓力 psf：程式 270.5／原書 270
+PASS  Ex5-15 滾動剪力 psf：程式 494.4／原書 494
+PASS  Ex5-12 彎曲跨距 in.：程式 13.77／原書 13.8
+PASS  Ex5-14 彎曲容許壓力 psf：程式 183／原書 183
+PASS  Ex5-16 彎曲撓度 in.：程式 0.03437／原書 0.035
+PASS  Ex5-17 剪力撓度 in.：程式 0.01213／原書 0.012
+PASS  Ex5-18 Fc psi：程式 897.3／原書 897.6
+PASS  Ex5-18 Pc lb：程式 1.727e+04／原書 1.728e+04
+PASS  Ch5 牆面板 bending in.：程式 12.44／原書 12.4
+PASS  Ch5 牆面板 rolling_shear in.：程式 12.87／原書 12.8
+PASS  Ch5 牆面板 defl_l/360 in.：程式 14.33／原書 14.3
+PASS  Ch5 牆面板 defl_1/16in in.：程式 16.02／原書 16
+PASS  Ch5 牆小肋 bending：程式 28.9／原書 28.9
+PASS  Ch5 牆小肋 shear：程式 24.76／原書 24.8
+PASS  Ch5 牆小肋 defl_l/360：程式 36.93／原書 36.9
+PASS  Ch5 牆小肋 defl_1/16in：程式 32.64／原書 32.6
+PASS  Ch5 牆大肋 bending：程式 28.9／原書 28.8
+PASS  Ch5 牆大肋 shear：程式 24.76／原書 24.7
+PASS  Ch5 牆大肋 defl_l/360：程式 36.93／原書 36.9
+PASS  Ch5 牆大肋 defl_1/16in：程式 32.64／原書 32.9
+PASS  Ch5 繫結器拉力 lb：程式 3300／原書 3300
+PASS  Ch5 13.3 kN（3,000 lb）繫結器最大間距 in.：程式 21.82／原書 21.8
+PASS  Ex5-19 斜撐軸力 lb：程式 2187／原書 2188
+PASS  Ex5-19 垂直反力 lb：程式 1875／原書 1875
+PASS  Ex5-20 H lb：程式 1407／原書 1406
+PASS  Ex5-20 軸力 lb：程式 2345／原書 2343
+PASS  Ch5 板載重 psf：程式 143／原書 143
+PASS  Ch5 板面板 rolling_shear：程式 61.93／原書 61.9
+PASS  Ch5 板面板 defl_l/360：程式 23.03／原書 23
+PASS  Ch5 板面板 defl_1/16in：程式 22.91／原書 22.9
+PASS  Ch5 板面板 bending（原書印 20.0，正確 21.0）：程式 21.06／原書 21
+PASS  Ch5 小梁 F'b psi：程式 1434／原書 1434
+PASS  Ch5 小梁 F'v psi：程式 218.3／原書 218
+PASS  Ch5 小梁 bending：程式 71.89／原書 71.9
+PASS  Ch5 小梁 shear：程式 150.6／原書 150.6
+PASS  Ch5 小梁 defl_l/360：程式 71.57／原書 71.6
+PASS  Ch5 小梁 defl_1/16in：程式 53.58／原書 53.6
+PASS  Ch5 大梁 bending：程式 67.83／原書 67.8
+PASS  Ch5 大梁 shear：程式 104.9／原書 104.9
+PASS  Ch5 大梁 defl_l/360：程式 83.94／原書 83.9
+PASS  Ch5 大梁 defl_1/16in：程式 60.39／原書 60.4
+PASS  Ch5 大梁 F'b psi：程式 1243／原書 1243
+PASS  Ch5 承壓 小梁－大梁 psi：程式 77.74／原書 77.8
+PASS  Ch6 梁支柱線載重 plf：程式 582.5／原書 583
+PASS  Table5-5 4x4 10ft lb：程式 4665／原書 4672
+PASS  Ch6 4x4 6ft lb：程式 1.11e+04／原書 1.108e+04
+PASS  Ch6 4x4 12ft lb：程式 3320／原書 3318
+PASS  Ch6 梁底 bending：程式 36.81／原書 36.8
+PASS  Ch6 梁底 shear：程式 89.45／原書 89.4
+PASS  Ch6 梁底 defl_l/360：程式 38.27／原書 38.2
+PASS  Ex7-1 衝擊力 lb：程式 299.2／原書 300
+PASS  Ch7 料車 5s lb：程式 273.6／原書 274
+PASS  Ch7 料車 3s lb：程式 455.9／原書 457
+PASS  Ex8-1 面板 bending：程式 13.27／原書 13.2
+PASS  Ex8-1 面板 rolling_shear：程式 17.24／原書 17.2
+PASS  Ex8-1 面板 defl_l/360：程式 13.82／原書 13.8
+PASS  Ex8-1 面板 defl_1/16in：程式 15.63／原書 15.6
+PASS  Ex8-1 雙板 bending：程式 45.43／原書 45.4
+PASS  Ex8-1 雙板 shear：程式 57.4／原書 57.4
+PASS  Ex8-1 雙板 defl_l/360：程式 51.73／原書 51.7
+PASS  Ex8-1 雙板 defl_1/16in：程式 42.01／原書 42
+PASS  Ex10-1 bending：程式 25.98／原書 25.9
+PASS  Ex10-1 shear：程式 60.59／原書 60.6
+PASS  Ex10-1 defl_l/360：程式 30.75／原書 30.7
+PASS  Ex10-1 defl_1/16in：程式 28.43／原書 28.4
+PASS  Ex10-2 F'b psi：程式 2062／原書 2062
+PASS  Ex10-2 bending：程式 16.65／原書 16.6
+PASS  Ex10-2 shear：程式 15.55／原書 15.5
+PASS  Ex10-2 defl_l/360：程式 18.66／原書 18.6
+PASS  Ex10-2 defl_1/16in：程式 19.57／原書 19.6
+PASS  Ex10-3 S in³：程式 2.196／原書 2.19
+PASS  Ex10-4 S in³：程式 5.489／原書 5.48
+PASS  Ex11-1 bending：程式 26.5／原書 26.5
+PASS  Ex11-1 rolling_shear：程式 68.98／原書 68.9
+PASS  Ex11-1 defl_l/360：程式 21.97／原書 21.9
+PASS  Ex11-1 defl_1/16in：程式 22.09／原書 22.1
+PASS  Ex11-2 bending：程式 71.73／原書 71.7
+PASS  Ex11-2 shear：程式 183.4／原書 183.4
+PASS  Ex11-2 defl_l/360：程式 60.16／原書 60.1
+PASS  Ex11-2 defl_1/16in：程式 47.05／原書 47
+PASS  Ex13-1 R ft：程式 50／原書 50
+PASS  Ex13-1 邊緣角度：程式 36.87／原書 36.87
+PASS  Table5-7 不符格數：程式 0／原書 0
+PASS  Table5-8 不符格數：程式 0／原書 0
+PASS  SI 常數 K0 kPa：程式 7.182／原書 7.182
+PASS  SI 常數 K1：程式 785.4／原書 785.4
+PASS  SI 常數 K2：程式 1154／原書 1154
+PASS  SI 常數 K3：程式 244.4／原書 244.3
+
+合計 103/103 通過（程式以 SI 計算，結果換回原書美制單位與原書印刷值比對）
+
+原書表值與公式不一致（以公式為準）：
+  - 原書 Table 3-5 R=6.71 m/h、T=26.7 °C：表值 130.7 kPa，公式 125.7 kPa（原書英制 2730／2625 psf）
+  - 原書 Table 3-5 R=7.01 m/h、T=26.7 °C：表值 168.8 kPa，公式 131.1 kPa（原書英制 3525／2738 psf）
+  - 原書 Table 3-3／3-4 R=3.96 m/h、T=15.6 °C：表值 69.4 kPa，公式 70.9 kPa（原書英制 1450／1480 psf）
