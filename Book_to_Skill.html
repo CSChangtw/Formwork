@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>技術手冊蒸餾為 AI Skill 之方法與作業步驟</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1C2331;--ink-soft:#3D4D5C;--eng-blue:#2C5F8A;--eng-blue-l:#4A85B5;--accent:#D4450C;--accent-l:#F26030;--bg:#F5F6F8;--bg-white:#FFFFFF;--bg-card:#EEF1F5;--rule:#D0D6DE}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',sans-serif;font-size:16.5px;line-height:1.85;overflow-wrap:anywhere}
+header{position:relative;color:#fff;padding:56px 24px 44px;background:linear-gradient(135deg,#0D1820 0%,#1C2331 50%,#1A3550 100%);overflow:hidden}
+header::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,95,138,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(44,95,138,.15) 1px,transparent 1px);background-size:32px 32px}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent-l) 30%,var(--eng-blue-l) 70%,var(--eng-blue))}
+.hd{position:relative;max-width:1080px;margin:0 auto}
+.eyebrow{display:inline-block;font-family:'IBM Plex Sans','Noto Sans TC',sans-serif;font-size:13px;letter-spacing:.12em;color:var(--accent-l);border:1px solid rgba(242,96,48,.6);padding:2px 10px;border-radius:3px}
+header h1{font-family:'IBM Plex Sans','Noto Sans TC',sans-serif;font-size:2.05em;line-height:1.35;margin:.45em 0 .25em;font-weight:700}
+.sub{font-size:1.1em;color:#C9D6E3;margin:0}
+.meta{margin-top:18px;font-size:14px;color:#AFC0D2}
+.meta b{color:#fff}
+.page-wrapper{max-width:1080px;margin:0 auto;display:flex;gap:28px;padding:28px 20px 60px}
+.side-nav{flex:0 0 220px;position:sticky;top:16px;align-self:flex-start;max-height:calc(100vh - 32px);overflow-y:auto;font-size:13.5px;line-height:1.5;padding:12px 0}
+.side-nav .t{font-weight:700;color:var(--eng-blue);padding:0 10px 8px;font-family:'IBM Plex Sans','Noto Sans TC',sans-serif}
+.side-nav ul{list-style:none;margin:0;padding:0}
+.side-nav a{display:block;padding:4px 10px;color:var(--ink-soft);text-decoration:none;border-left:3px solid transparent}
+.side-nav ul.sec{display:none;margin:2px 0 6px}.side-nav li.open>ul.sec{display:block}.side-nav a.sec-link{padding-left:30px;font-size:12.5px}.side-nav a.ch-link{font-weight:600;color:var(--ink)}.side-nav .caret{display:inline-block;width:14px;color:var(--eng-blue-l);transition:transform .15s;font-size:11px}.side-nav li.open>a .caret{transform:rotate(90deg)}.side-nav li.cur>a.ch-link{color:var(--eng-blue)}
+.side-nav a:hover{color:var(--eng-blue-l)}
+.side-nav a.active{color:var(--accent);border-left-color:var(--accent);font-weight:700;background:#fff}
+.article-body{flex:1;min-width:0}
+.abstract,.section{background:var(--bg-white);border-radius:6px;padding:26px 30px;margin-bottom:22px;box-shadow:0 1px 3px rgba(28,35,49,.06)}
+.abstract{border-left:5px solid var(--accent)}
+.section-number{font-family:'IBM Plex Sans','Noto Sans TC',sans-serif;font-size:12.5px;letter-spacing:.14em;color:var(--eng-blue-l);font-weight:600}
+h2{font-family:'IBM Plex Sans','Noto Sans TC',sans-serif;color:var(--eng-blue);font-size:1.45em;margin:.2em 0 .7em;line-height:1.4}
+h3{color:var(--eng-blue);font-size:1.17em;margin:1.7em 0 .6em;padding-bottom:4px;border-bottom:1px solid var(--rule)}
+h4{font-size:1em;color:var(--ink);margin:1.3em 0 .4em;padding-left:9px;border-left:3px solid var(--eng-blue-l)}
+p{margin:.65em 0}
+ol,ul{padding-left:1.6em}
+li{margin:.25em 0}
+.keywords{color:var(--ink-soft)}
+.law-cite{color:var(--eng-blue);font-weight:700}
+.accent-bold{color:var(--accent);font-weight:700}
+a.ref{color:var(--eng-blue-l);text-decoration:none;font-size:.85em;vertical-align:super;line-height:0}
+code{font-family:'IBM Plex Mono',monospace;font-size:.88em;background:var(--bg-card);padding:1px 5px;border-radius:3px}
+.cap{font-weight:700;color:var(--ink);margin:1.4em 0 .4em;text-align:center}
+.cap-pre{font-size:.9em;font-weight:700;color:var(--ink-soft);margin:1.2em 0 .3em}
+.table-wrap{overflow-x:auto;margin:0 0 1.2em;border:1px solid var(--rule);border-radius:4px}
+table{border-collapse:collapse;width:100%;font-size:.92em;line-height:1.6;min-width:520px}
+th{background:var(--eng-blue);color:#fff;font-weight:600;text-align:left;padding:8px 10px;white-space:nowrap}
+td{padding:7px 10px;border-top:1px solid var(--rule);vertical-align:top}
+tbody tr:nth-child(even) td{background:var(--bg-card)}
+.figure-card{background:#fff;border:1px solid var(--rule);border-top:4px solid var(--eng-blue);border-radius:4px;margin:1.4em 0;overflow:hidden}
+.figure-card svg{padding:12px}
+.figure-card figcaption{background:var(--bg-card);padding:9px 14px;font-weight:700;font-size:.93em;text-align:center;color:var(--ink)}
+pre.code{font-family:'IBM Plex Mono','Noto Sans TC',monospace;font-size:.84em;line-height:1.6;background:#1C2331;color:#E2E8F0;padding:14px 16px;border-radius:5px;overflow-x:auto;white-space:pre;margin:.3em 0 1.2em}
+pre.code.wrap{white-space:pre-wrap;overflow-wrap:anywhere;max-height:none}
+ul.checklist{list-style:none;padding-left:.4em}
+ul.checklist li::before{content:"☐";color:var(--eng-blue);margin-right:8px}
+.eq{display:flex;align-items:center;justify-content:center;position:relative;margin:.9em 0;padding:4px 56px;font-family:'Times New Roman','Noto Sans TC',serif;font-size:1.06em}
+.eq-body{max-width:100%;overflow-x:auto;white-space:nowrap}.eq-no{position:absolute;right:8px}
+ol.refs{font-size:.92em;line-height:1.7}
+ol.conclusion li{margin:.5em 0}
+footer{background:#1C2331;color:#AFC0D2;text-align:center;padding:28px 20px;font-size:14px;line-height:1.8}
+footer b{color:#fff}
+.toc-fab{display:none;position:fixed;right:16px;bottom:18px;z-index:30;background:var(--eng-blue);color:#fff;border:0;border-radius:22px;padding:10px 16px;font-size:15px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.toc-backdrop{display:none;position:fixed;inset:0;background:rgba(28,35,49,.45);z-index:15}
+@media (max-width:900px){
+ .page-wrapper{display:block;padding:16px 10px 80px}
+ .side-nav{position:fixed;left:0;top:0;bottom:auto;height:100vh;height:100dvh;max-height:none;width:min(82vw,300px);background:var(--bg);z-index:20;transform:translateX(-105%);transition:transform .2s;padding:16px 4px 120px;box-shadow:2px 0 10px rgba(0,0,0,.15);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
+ body.nav-open{overflow:hidden;touch-action:none}
+ body.nav-open .side-nav{touch-action:pan-y}
+ .side-nav a{padding:6px 10px}
+ body.nav-open .toc-fab{display:none}
+ body.nav-open .side-nav{transform:none}
+ body.nav-open .toc-backdrop{display:block}
+ .toc-fab{display:block}
+ .abstract,.section{padding:18px 16px}
+ header{padding:38px 16px 30px;background-size:auto}
+ header::before{background-size:22px 22px}
+ header h1{font-size:1.55em}
+ body{font-size:15.5px}
+ .eq{padding:4px 34px 4px 0;font-size:.86em;justify-content:flex-start}
+}
+@media print{.side-nav,.toc-fab,.toc-backdrop{display:none!important}.page-wrapper{display:block}.section{box-shadow:none;break-inside:auto}thead{display:table-header-group}tr,.figure-card,.eq,pre{break-inside:avoid;page-break-inside:avoid}.cap{break-after:avoid;page-break-after:avoid}.table-wrap{overflow:visible}table{min-width:0}}
+.side-nav a:focus-visible,.toc-fab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style><script>
+document.addEventListener('DOMContentLoaded',function(){
+ var b=document.body,nav=document.querySelector('.side-nav'),fab=document.querySelector('.toc-fab'),bd=document.querySelector('.toc-backdrop');
+ var mobile=function(){return window.matchMedia('(max-width:900px)').matches};
+ var chs=[].slice.call(nav.querySelectorAll('li.ch'));
+ function openOnly(li){chs.forEach(function(c){c.classList.toggle('open',c===li&&c.classList.contains('has-sub'))})}
+ function openNav(){b.classList.add('nav-open');fab.setAttribute('aria-expanded','true');var act=nav.querySelector('a.active')||nav.querySelector('a');nav.scrollTop=Math.max(0,act.offsetTop-nav.clientHeight/3);act.focus({preventScroll:true});}
+ function closeNav(ret){if(!b.classList.contains('nav-open'))return;b.classList.remove('nav-open');fab.setAttribute('aria-expanded','false');if(ret)fab.focus();}
+ fab.addEventListener('click',openNav);
+ bd.addEventListener('click',function(){closeNav(true)});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeNav(true);});
+ nav.querySelectorAll('a.ch-link').forEach(function(a){a.addEventListener('click',function(e){
+   var li=a.parentNode;
+   if(li.classList.contains('has-sub')){
+     e.preventDefault();
+     var wasOpen=li.classList.contains('open');
+     openOnly(wasOpen?null:li);
+     if(!wasOpen){var t=document.getElementById(a.getAttribute('href').slice(1));if(t)t.scrollIntoView({behavior:'smooth'});history.replaceState(null,'',a.getAttribute('href'));}
+   } else { closeNav(false); }
+ })});
+ nav.querySelectorAll('a.sec-link').forEach(function(a){a.addEventListener('click',function(){closeNav(false)})});
+ var links=[].slice.call(nav.querySelectorAll('a'));
+ var targets=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1))});
+ var lastCh=null;
+ function upd(){var cur=0;for(var i=0;i<targets.length;i++){if(targets[i]&&targets[i].getBoundingClientRect().top<=120)cur=i}
+  links.forEach(function(a,i){a.classList.toggle('active',i===cur)});
+  var li=links[cur].closest('li.ch');
+  chs.forEach(function(c){c.classList.toggle('cur',c===li)});
+  if(li!==lastCh){lastCh=li; if(!b.classList.contains('nav-open')){openOnly(li);}}
+ }
+ window.addEventListener('scroll',upd,{passive:true});upd();
+});
+</script></head>
+<body>
+<header><div class="hd">
+<span class="eyebrow">AI 土建工程應用｜T32 Skill技術報告</span>
+<h1>技術手冊蒸餾為 AI Skill 之方法與作業步驟</h1>
+<p class="sub">以《Formwork for Concrete Structures》建置「模板大師」Skill 為例</p>
+</div></header>
+<div class="page-wrapper">
+<nav class="side-nav" id="toc" aria-label="目錄"><div class="t">目錄</div><ul>
+<li class="ch"><a class="ch-link" href="#abstract"><span class="caret"></span>摘要</a></li>
+<li class="ch has-sub"><a class="ch-link" href="#s1"><span class="caret">▸</span>一、緒論</a><ul class="sec"><li><a class="sec-link" href="#s1-1">1.1 研究背景與動機</a></li><li><a class="sec-link" href="#s1-2">1.2 既有做法的限制</a></li><li><a class="sec-link" href="#s1-3">1.3 研究目的與範圍</a></li></ul></li>
+<li class="ch has-sub"><a class="ch-link" href="#s2"><span class="caret">▸</span>二、書籍與 Skill 的組織差異</a><ul class="sec"><li><a class="sec-link" href="#s2-1">2.1 讀者與順序</a></li><li><a class="sec-link" href="#s2-2">2.2 Skill 的檔案構成</a></li></ul></li>
+<li class="ch has-sub"><a class="ch-link" href="#s3"><span class="caret">▸</span>三、蒸餾方法架構</a><ul class="sec"><li><a class="sec-link" href="#s3-1">3.1 步驟一　定任務</a></li><li><a class="sec-link" href="#s3-2">3.2 步驟二　拆知識單元</a></li><li><a class="sec-link" href="#s3-3">3.3 步驟三　分流與濃縮</a></li><li><a class="sec-link" href="#s3-4">3.4 步驟四　接成流程</a></li><li><a class="sec-link" href="#s3-5">3.5 步驟五　封裝</a></li><li><a class="sec-link" href="#s3-6">3.6 步驟六　測試與迭代</a></li></ul></li>
+<li class="ch has-sub"><a class="ch-link" href="#s4"><span class="caret">▸</span>四、案例驗證　模板大師</a><ul class="sec"><li><a class="sec-link" href="#s4-1">4.1 案例背景</a></li><li><a class="sec-link" href="#s4-2">4.2 步驟一的任務清單</a></li><li><a class="sec-link" href="#s4-3">4.3 第 3 章的拆解與濃縮</a></li><li><a class="sec-link" href="#s4-4">4.4 第 7 章失敗案例的轉換</a></li><li><a class="sec-link" href="#s4-5">4.5 設計牆模的任務流程</a></li><li><a class="sec-link" href="#s4-6">4.6 單一單元的端到端追蹤</a></li><li><a class="sec-link" href="#s4-7">4.7 蒸餾成果　模板大師 Skill 三平台版本</a></li><li><a class="sec-link" href="#s4-8">4.8 驗證結果</a></li></ul></li>
+<li class="ch has-sub"><a class="ch-link" href="#s5"><span class="caret">▸</span>五、討論</a><ul class="sec"><li><a class="sec-link" href="#s5-1">5.1 常見錯誤與避免方法</a></li><li><a class="sec-link" href="#s5-2">5.2 方法的適用邊界</a></li><li><a class="sec-link" href="#s5-3">5.3 著作權與專業責任</a></li><li><a class="sec-link" href="#s5-4">5.4 工程 AI Skill 的風險分級</a></li></ul></li>
+<li class="ch"><a class="ch-link" href="#s6"><span class="caret"></span>六、結論</a></li>
+<li class="ch has-sub"><a class="ch-link" href="#apx"><span class="caret">▸</span>附錄</a><ul class="sec"><li><a class="sec-link" href="#apx-a">附錄A　作業表單</a></li><li><a class="sec-link" href="#apx-b">附錄B　book-to-skill Skill</a></li></ul></li>
+<li class="ch"><a class="ch-link" href="#refs"><span class="caret"></span>參考文獻</a></li>
+</ul></nav>
+<main class="article-body">
+<section class="abstract" id="abstract">
+<h2>摘要</h2>
+<p>將技術手冊交給大型語言模型（Large Language Model, LLM）時，常見做法是上傳全書或先做整本摘要，模型因此能回答書籍裡寫過的問題。然而，當工程師接手新工程項目時卻不知道先問什麼、依哪條規則判斷、數字由誰計算。本報告提出六步驟蒸餾方法，將技術手冊由解釋順序改寫為執行順序，封裝成 Skill（Agent Skill）。六步驟依序為定任務、拆知識單元、分流與濃縮、接成流程、封裝、測試與迭代，每一步都訂有作業程序、判斷規則與完成條件，未建置過 Skill 的工程師可以依序照做；知識單元以五個問題判斷，測試分為數值、邏輯、邊界、缺漏、法規與工程情境六類。方法以《Formwork for Concrete Structures》第 4 版<a class="ref" href="#ref1">[1]</a>建置「模板大師」Skill 驗證。原書第 3 章約 19 頁的側壓力內容，在 Claude 版主檔中濃縮為五列的側壓力決策表，其餘分流至速查表、方法檔、計算程式與審查表；以程式回歸驗證原書例題與表值 103 項全數通過，另記錄 15 項原書勘誤，其中 12 項已確認、3 項待核。同一內容封裝為 Claude、Gemini、ChatGPT 三個平台版本。案例也顯示，使用地法規的查證必須在流程結構化階段插入，延後補做會使全部參考檔重寫。Skill 的計算結果屬工程輔助成果，本報告依風險將應用分為三級，設計與安全決策須經人工專業審查。</p>
+<p class="keywords"><b>關鍵詞</b>　Skill、書籍蒸餾、技術手冊、模板設計、大型語言模型</p>
+</section>
+
+<section class="section" id="s1">
+<div class="section-number">第一章</div>
+<h2>一、緒論</h2>
+<h3 id="s1-1">1.1 研究背景與動機</h3>
+<p>技術手冊依知識的邏輯編排，Skill 則要依任務的執行順序運作，兩者之間需要一道轉換。以模板設計為例，原書<a class="ref" href="#ref1">[1]</a>先說明影響側壓力的因素，再介紹公式、係數表與例題，讀者讀完一章後，自己判斷何時套用哪一式。工程師把這樣的書籍直接交給 LLM，模型讀得到公式，卻缺少三樣東西，分別是接到任務時的提問順序、選用公式的判斷條件，以及可以驗證的計算結果。</p>
+<h3 id="s1-2">1.2 既有做法的限制</h3>
+<p>上傳全書時，模型每次回答都要從數百頁敘述中檢索，容易取到條件不符的公式，答出的數值也無法追溯出處。先請模型做整本摘要再當成知識檔，摘要會保留章節順序與結論，同時刪掉公式的適用條件與夾限，工程判斷依據的正是這些條件。</p>
+<p>兩種做法還共同面對本地化問題。原書依美國規範與英制單位撰寫，國內模板工程須以<span class="law-cite">《營造安全衛生設施標準》（勞動部，115 年 6 月 30 日修正發布）</span><a class="ref" href="#ref5">[5]</a>、<span class="law-cite">《結構混凝土施工規範》（內政部，110 年 7 月 13 日修正發布，110 年 9 月 1 日生效）</span><a class="ref" href="#ref6">[6]</a>及契約引用的<span class="law-cite">《公共工程施工綱要規範》第 03110 章「場鑄結構混凝土用模板」（行政院公共工程委員會）</span><a class="ref" href="#ref7">[7]</a>為首要依據。整本上傳或整本摘要，都無法讓模型知道哪一段該改用國內規定。</p>
+<h3 id="s1-3">1.3 研究目的與範圍</h3>
+<p>本報告主要目的有二。第一，提出一套六步驟蒸餾方法，讓會使用聊天式 AI、但未建置過 Skill 的工程師，能依循步驟把一本技術手冊轉成可執行的 Skill。第二，以模板大師案例驗證方法，記錄每一步處理前後的內容、檢驗結果與最後產出的 Skill。附錄B 另提供依本方法撰寫的 book-to-skill Skill，讓讀者在對話中由 AI 帶著走完六步驟。適用對象為含有公式、表格、例題與規範依據的工程技術書籍；以敘事為主、缺少可計算內容的書籍不在本報告範圍。</p>
+<p>全文架構如圖1。技術知識來源依序經過知識蒸餾、任務建模、Skill 封裝與品質驗證四個階段，對應第三章的六個步驟；依據版本與單位換算的管理貫穿各階段，測試不合格時回到對應階段修正。</p>
+<figure class="figure-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" role="img" aria-label="總體架構" font-family="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif" style="width:100%;height:auto;display:block"><defs><marker id="f11-ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2C5F8A"/></marker><marker id="f11-ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8A96A3"/></marker><marker id="f11-ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#D4450C"/></marker></defs><rect width="720" height="520" fill="#FFFFFF"/><rect x="30" y="20" width="660" height="52" rx="5" fill="#F3F4F6" stroke="#8A96A3" stroke-width="1.1"/><text x="360.0" y="41.6" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">輸入：技術知識來源</text><text x="360.0" y="60.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">技術手冊、規範、公式、表格、例題、失敗案例</text><rect x="110" y="100" width="470" height="58" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="345.0" y="124.6" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">第一階段 知識蒸餾（步驟一～三）</text><text x="345.0" y="143.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">定任務 → 拆知識單元（單元五問）→ 分流與濃縮</text><path d="M345,74 L345,98" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f11-ab)"/><rect x="110" y="182" width="470" height="58" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="345.0" y="206.6" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">第二階段 任務建模（步驟四）</text><text x="345.0" y="225.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">工程流程、判斷條件、計算程式、缺漏處理</text><path d="M345,158 L345,180" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f11-ab)"/><rect x="110" y="264" width="470" height="58" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="345.0" y="288.6" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">第三階段 Skill 封裝（步驟五）</text><text x="345.0" y="307.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">Claude Skill、Gemini Skill、ChatGPT 專案</text><path d="M345,240 L345,262" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f11-ab)"/><rect x="110" y="346" width="470" height="58" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="345.0" y="370.6" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">第四階段 品質驗證（步驟六）</text><text x="345.0" y="389.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">T1 數值、T2 邏輯、T3 邊界、T4 缺漏、T5 法規、T6 情境</text><path d="M345,322 L345,344" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f11-ab)"/><path d="M345,72 L345,98" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f11-ab)"/><rect x="110" y="448" width="470" height="54" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="345.0" y="470.5" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">成果：工程 AI Skill</text><text x="345.0" y="489.5" font-size="12.5" font-weight="400" fill="#FFFFFF" text-anchor="middle">可追溯、可驗證、可更新、可維護</text><path d="M345,404 L345,446" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f11-ab)"/><rect x="30" y="100" width="60" height="304" rx="5" fill="#F3F4F6" stroke="#8A96A3" stroke-width="1"/><text x="60" y="128" font-size="12.5" font-weight="700" fill="#3D4D5C" text-anchor="middle">依</text><text x="60" y="153" font-size="12.5" font-weight="700" fill="#3D4D5C" text-anchor="middle">據</text><text x="60" y="178" font-size="12.5" font-weight="700" fill="#3D4D5C" text-anchor="middle">版</text><text x="60" y="203" font-size="12.5" font-weight="700" fill="#3D4D5C" text-anchor="middle">本</text><text x="60" y="228" font-size="12.5" font-weight="700" fill="#3D4D5C" text-anchor="middle">與</text><text x="60" y="253" font-size="12.5" font-weight="700" fill="#3D4D5C" text-anchor="middle">單</text><text x="60" y="278" font-size="12.5" font-weight="700" fill="#3D4D5C" text-anchor="middle">位</text><text x="60" y="303" font-size="12.5" font-weight="700" fill="#3D4D5C" text-anchor="middle">換</text><text x="60" y="328" font-size="12.5" font-weight="700" fill="#3D4D5C" text-anchor="middle">算</text><text x="60" y="353" font-size="12.5" font-weight="700" fill="#3D4D5C" text-anchor="middle">管</text><text x="60" y="378" font-size="12.5" font-weight="700" fill="#3D4D5C" text-anchor="middle">理</text><path d="M580,375 L640,375 L640,129 L582,129" fill="none" stroke="#D4450C" stroke-width="1.4" marker-end="url(#f11-ao)"/><text x="650" y="250" font-size="11.5" font-weight="400" fill="#D4450C" text-anchor="start">不合格</text><text x="650" y="268" font-size="11.5" font-weight="400" fill="#D4450C" text-anchor="start">回頭修正</text></svg><figcaption>圖1　技術手冊蒸餾為工程 AI Skill 的總體架構，四個階段對應第三章的六個步驟</figcaption></figure>
+</section>
+
+<section class="section" id="s2">
+<div class="section-number">第二章</div>
+<h2>二、書籍與 Skill 的組織差異</h2>
+<h3 id="s2-1">2.1 讀者與順序</h3>
+<p>書籍是寫給想理解主題的人閱讀的，而Skill 則寫給要完成任務的 AI，兩者在組織順序、內容形式與缺資料時的處理方式上存在諸多差異（表1）。</p>
+<p class="cap">表1　書籍與 Skill 的組織方式比較</p>
+<div class="table-wrap"><table>
+<thead><tr><th>比較項目</th><th>書籍</th><th>Skill</th></tr></thead>
+<tbody>
+<tr><td>讀者</td><td>想理解主題的人</td><td>要完成任務的 AI</td></tr>
+<tr><td>組織順序</td><td>知識的邏輯順序（章節）</td><td>任務的執行順序（流程）</td></tr>
+<tr><td>主要內容</td><td>敘述、推導、背景、例題</td><td>規則、決策表、公式、程式、檢核表</td></tr>
+<tr><td>數字</td><td>讀者自行計算</td><td>程式計算，並以書籍中例題驗證</td></tr>
+<tr><td>依據</td><td>作者所在地的規範</td><td>使用地的法規與契約優先</td></tr>
+<tr><td>缺資料時</td><td>讀者自行假設</td><td><span class="accent-bold">必須先問，不得推估</span></td></tr>
+</tbody></table></div>
+<p>蒸餾的工作主要是改寫順序。能讓 AI 判斷與計算的部分留下，只為幫助理解的部分刪除，留下的內容再依任務重新排列。圖2 以模板設計為例，書籍中的公式推導拆成兩路，適用條件進入判斷步驟，計算式進入計算程式；例題轉為檢核用的驗證項目；背景敘述刪除，或縮成規則旁的一行原因說明。圖2 右欄第 1 步「詢問輸入與依據」在書中找不到對應章節。書只說明公式需要哪些變數，不會寫明接到工作時要先向使用者問什麼；這些詢問項目在步驟四依任務追蹤五問逐步整理，使用地的法規依據則來自步驟一的外部補充清單。</p>
+<figure class="figure-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" role="img" aria-label="書與Skill的組織順序對照" font-family="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif" style="width:100%;height:auto;display:block"><defs><marker id="f1-ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2C5F8A"/></marker><marker id="f1-ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8A96A3"/></marker><marker id="f1-ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#D4450C"/></marker></defs><rect width="720" height="380" fill="#FFFFFF"/><text x="150" y="30" font-size="14" font-weight="700" fill="#1C2331" text-anchor="middle">書（解釋順序）</text><text x="570" y="30" font-size="14" font-weight="700" fill="#2C5F8A" text-anchor="middle">Skill（執行順序）</text><rect x="40" y="60" width="220" height="48" rx="5" fill="#F3F4F6" stroke="#8A96A3" stroke-width="1.1"/><text x="150.0" y="88.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">背景與影響因素</text><path d="M150,108 L150,133" fill="none" stroke="#8A96A3" stroke-width="1.4" marker-end="url(#f1-ag)"/><rect x="40" y="135" width="220" height="48" rx="5" fill="#F3F4F6" stroke="#8A96A3" stroke-width="1.1"/><text x="150.0" y="163.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">原理與公式推導</text><path d="M150,183 L150,208" fill="none" stroke="#8A96A3" stroke-width="1.4" marker-end="url(#f1-ag)"/><rect x="40" y="210" width="220" height="48" rx="5" fill="#F3F4F6" stroke="#8A96A3" stroke-width="1.1"/><text x="150.0" y="238.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">例題</text><path d="M150,258 L150,283" fill="none" stroke="#8A96A3" stroke-width="1.4" marker-end="url(#f1-ag)"/><rect x="40" y="285" width="220" height="48" rx="5" fill="#F3F4F6" stroke="#8A96A3" stroke-width="1.1"/><text x="150.0" y="313.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">數值表與附錄</text><rect x="460" y="60" width="220" height="48" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="570.0" y="88.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">1 詢問輸入與依據</text><path d="M570,108 L570,133" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f1-ab)"/><rect x="460" y="135" width="220" height="48" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="570.0" y="163.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">2 判斷（決策表）</text><path d="M570,183 L570,208" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f1-ab)"/><rect x="460" y="210" width="220" height="48" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="570.0" y="238.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">3 計算（程式與資料檔）</text><path d="M570,258 L570,283" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f1-ab)"/><rect x="460" y="285" width="220" height="48" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="570.0" y="313.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">4 輸出與檢核</text><rect x="290" y="62" width="140" height="44" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="360.0" y="79.9" font-size="11.5" font-weight="400" fill="#1C2331" text-anchor="middle">主檔刪除；原因與</text><text x="360.0" y="96.4" font-size="10.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">例外留在參考檔</text><path d="M260,84 L288,84" fill="none" stroke="#8A96A3" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#f1-ag)"/><path d="M260,159 L458,159" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f1-ab)"/><path d="M260,165 L458,228" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f1-ab)"/><path d="M260,309 L458,240" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f1-ab)"/><path d="M260,234 L458,303" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f1-ab)"/><text x="360" y="150" font-size="11" font-weight="400" fill="#3D4D5C" text-anchor="middle">適用條件</text><text x="300" y="199" font-size="11" font-weight="400" fill="#3D4D5C" text-anchor="middle">公式</text><text x="312" y="266" font-size="11" font-weight="400" fill="#3D4D5C" text-anchor="middle">例題→驗證</text><text x="312" y="318" font-size="11" font-weight="400" fill="#3D4D5C" text-anchor="middle">表→資料檔</text></svg><figcaption>圖2　書籍的解釋順序與 Skill 執行順序的對應關係，公式推導依適用條件與式子分別流向判斷與計算步驟</figcaption></figure>
+<h3 id="s2-2">2.2 Skill 的檔案構成</h3>
+<p>Skill 是一個資料夾，至少包含一個主檔 <code>SKILL.md</code>。主檔開頭以 <code>name</code> 與 <code>description</code> 兩個欄位說明這個 Skill 的名稱與使用時機；需要時才讀取的參考文件放在 <code>references/</code>，可執行的程式放在 <code>scripts/</code><a class="ref" href="#ref3">[3,4]</a>。平台以漸進式揭露（Progressive Disclosure）載入 Skill，平時只讀名稱與描述，任務相符時才讀主檔本文，再依主檔中的索引讀取參考檔或執行程式<a class="ref" href="#ref3">[3]</a>。官方撰寫指引建議主檔本文控制在 500 行以內<a class="ref" href="#ref4">[4]</a>。</p>
+<p>這個載入機制決定了蒸餾成果的放置方式。主檔每次觸發都會被讀取，內容越短越好；查表資料、方法細節與程式放在主檔之外，用到時才讀（圖3）。模板大師的 Claude 版另設 <code>examples/</code>，存放台灣案件的輸入範本與原書例題的輸入輸出。</p>
+<figure class="figure-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" role="img" aria-label="Skill資料夾構成與載入層級" font-family="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif" style="width:100%;height:auto;display:block"><defs><marker id="f2-ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2C5F8A"/></marker><marker id="f2-ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8A96A3"/></marker><marker id="f2-ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#D4450C"/></marker></defs><rect width="720" height="380" fill="#FFFFFF"/><rect x="30" y="15" width="200" height="40" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="130.0" y="40.0" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">&lt;skill-name&gt;/</text><path d="M55,55 L55,347" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><path d="M55,99 L80,99" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="80" y="75" width="175" height="48" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="167.5" y="94.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">SKILL.md 開頭</text><text x="167.5" y="112.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">name、description</text><rect x="275" y="75" width="300" height="48" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="425.0" y="103.3" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">觸發描述（何時使用本 Skill）</text><path d="M255,99 L275,99" fill="none" stroke="#8A96A3" stroke-width="1.4"/><rect x="595" y="83" width="105" height="32" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="647.5" y="103.1" font-size="11.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">每次載入</text><path d="M55,161 L80,161" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="80" y="137" width="175" height="48" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="167.5" y="156.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">SKILL.md 本文</text><text x="167.5" y="174.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">主檔</text><rect x="275" y="137" width="300" height="48" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="425.0" y="156.8" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">作業流程、核心決策表、參考檔索引、缺漏處理、</text><text x="425.0" y="173.8" font-size="10.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">常見錯誤</text><path d="M255,161 L275,161" fill="none" stroke="#8A96A3" stroke-width="1.4"/><rect x="595" y="145" width="105" height="32" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="647.5" y="165.1" font-size="11.5" font-weight="700" fill="#1C2331" text-anchor="middle">任務符合時載入</text><path d="M55,223 L80,223" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="80" y="199" width="175" height="48" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="167.5" y="218.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">references/</text><text x="167.5" y="236.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">參考檔</text><rect x="275" y="199" width="300" height="48" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="425.0" y="218.8" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">依據檔、速查表、方法與公式、術語、章節摘要、</text><text x="425.0" y="235.8" font-size="10.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">文件範本、審查表</text><path d="M255,223 L275,223" fill="none" stroke="#8A96A3" stroke-width="1.4"/><rect x="595" y="207" width="105" height="32" rx="5" fill="#F3F4F6" stroke="#8A96A3" stroke-width="1.1"/><text x="647.5" y="227.1" font-size="11.5" font-weight="700" fill="#1C2331" text-anchor="middle">需要時讀取</text><path d="M55,285 L80,285" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="80" y="261" width="175" height="48" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="167.5" y="280.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">scripts/</text><text x="167.5" y="298.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">程式</text><rect x="275" y="261" width="300" height="48" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="425.0" y="289.3" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">計算程式、資料檔（JSON）、回歸驗證</text><path d="M255,285 L275,285" fill="none" stroke="#8A96A3" stroke-width="1.4"/><rect x="595" y="269" width="105" height="32" rx="5" fill="#F3F4F6" stroke="#8A96A3" stroke-width="1.1"/><text x="647.5" y="289.1" font-size="11.5" font-weight="700" fill="#1C2331" text-anchor="middle">需要時執行</text><path d="M55,347 L80,347" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="80" y="323" width="175" height="48" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="167.5" y="342.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">examples/</text><text x="167.5" y="360.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">範例</text><rect x="275" y="323" width="300" height="48" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="425.0" y="351.3" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">範例輸入輸出、空白範本</text><path d="M255,347 L275,347" fill="none" stroke="#8A96A3" stroke-width="1.4"/><rect x="595" y="331" width="105" height="32" rx="5" fill="#F3F4F6" stroke="#8A96A3" stroke-width="1.1"/><text x="647.5" y="351.1" font-size="11.5" font-weight="700" fill="#1C2331" text-anchor="middle">需要時讀取</text><text x="647" y="70" font-size="11.5" font-weight="700" fill="#1C2331" text-anchor="middle">載入時機</text></svg><figcaption>圖3　Skill 資料夾構成與各檔案的載入時機，深色標籤為每次觸發都會載入的內容</figcaption></figure>
+</section>
+
+<section class="section" id="s3">
+<div class="section-number">第三章</div>
+<h2>三、蒸餾方法架構</h2>
+<p>一本手冊要經過哪些處理才能成為 Skill，本報告整理為六個步驟（圖4、表2）。前四步各有一個蒸餾操作，依序為定、拆、分與濃、接；步驟五把成果放進對的檔案，知識內容的語意不變，主檔寫法與執行方式依平台調整；步驟六以六類測試反向驗證，不通過時回到前面的步驟修正。</p>
+<figure class="figure-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 580" role="img" aria-label="六步蒸餾流程總覽" font-family="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif" style="width:100%;height:auto;display:block"><defs><marker id="f3-ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2C5F8A"/></marker><marker id="f3-ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8A96A3"/></marker><marker id="f3-ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#D4450C"/></marker></defs><rect width="720" height="580" fill="#FFFFFF"/><text x="110" y="22" font-size="12.5" font-weight="700" fill="#8A96A3" text-anchor="middle">丟棄的內容</text><text x="360" y="22" font-size="12.5" font-weight="700" fill="#2C5F8A" text-anchor="middle">步驟與操作</text><text x="615" y="22" font-size="12.5" font-weight="700" fill="#2C5F8A" text-anchor="middle">交給下一步的產出</text><rect x="250" y="40" width="220" height="58" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="360.0" y="74.0" font-size="14" font-weight="700" fill="#1C2331" text-anchor="middle">步驟一 定任務</text><circle cx="276" cy="69" r="15" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="276" y="73.7" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">定</text><rect x="20" y="49" width="180" height="40" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="110.0" y="73.1" font-size="11.5" font-weight="400" fill="#1C2331" text-anchor="middle">與任務無關的章節</text><path d="M250,69 L200,69" fill="none" stroke="#8A96A3" stroke-width="1.4"/><rect x="530" y="44" width="170" height="50" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="615.0" y="64.8" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">任務清單</text><text x="615.0" y="81.8" font-size="10.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">外部補充清單</text><path d="M470,69 L528,69" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f3-ab)"/><path d="M360,98 L360,126" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f3-ab)"/><rect x="250" y="128" width="220" height="58" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="360.0" y="162.0" font-size="14" font-weight="700" fill="#1C2331" text-anchor="middle">步驟二 拆知識單元</text><circle cx="276" cy="157" r="15" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="276" y="161.7" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">拆</text><rect x="20" y="137" width="180" height="40" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="110.0" y="161.1" font-size="11.5" font-weight="400" fill="#1C2331" text-anchor="middle">連接句、修辭、重複說明</text><path d="M250,157 L200,157" fill="none" stroke="#8A96A3" stroke-width="1.4"/><rect x="530" y="132" width="170" height="50" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="615.0" y="152.8" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">知識單元登錄表</text><text x="615.0" y="169.8" font-size="10.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">勘誤候選</text><path d="M470,157 L528,157" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f3-ab)"/><path d="M360,186 L360,214" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f3-ab)"/><rect x="250" y="216" width="220" height="58" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="360.0" y="250.0" font-size="14" font-weight="700" fill="#1C2331" text-anchor="middle">步驟三 分流與濃縮</text><circle cx="276" cy="245" r="15" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="276" y="249.7" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">分</text><rect x="20" y="225" width="180" height="40" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="110.0" y="249.1" font-size="11.5" font-weight="400" fill="#1C2331" text-anchor="middle">背景與歷史敘述</text><path d="M250,245 L200,245" fill="none" stroke="#8A96A3" stroke-width="1.4"/><rect x="530" y="220" width="170" height="50" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="615.0" y="240.8" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">規則、決策表</text><text x="615.0" y="257.8" font-size="10.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">公式、資料檔</text><path d="M470,245 L528,245" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f3-ab)"/><path d="M360,274 L360,302" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f3-ab)"/><rect x="250" y="304" width="220" height="58" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="360.0" y="338.0" font-size="14" font-weight="700" fill="#1C2331" text-anchor="middle">步驟四 接成流程</text><circle cx="276" cy="333" r="15" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="276" y="337.7" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">接</text><rect x="20" y="313" width="180" height="40" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="110.0" y="337.1" font-size="11.5" font-weight="400" fill="#1C2331" text-anchor="middle">書的章節順序</text><path d="M250,333 L200,333" fill="none" stroke="#8A96A3" stroke-width="1.4"/><rect x="530" y="308" width="170" height="50" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="615.0" y="328.8" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">任務流程表</text><text x="615.0" y="345.8" font-size="10.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">計算程式</text><path d="M470,333 L528,333" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f3-ab)"/><path d="M360,362 L360,390" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f3-ab)"/><rect x="250" y="392" width="220" height="58" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="360.0" y="426.0" font-size="14" font-weight="700" fill="#1C2331" text-anchor="middle">步驟五 封裝</text><circle cx="276" cy="421" r="15" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="276" y="425.7" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">封</text><rect x="20" y="401" width="180" height="40" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="110.0" y="425.1" font-size="11.5" font-weight="400" fill="#1C2331" text-anchor="middle">內容語意不變</text><path d="M250,421 L200,421" fill="none" stroke="#8A96A3" stroke-width="1.4"/><rect x="530" y="396" width="170" height="50" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="615.0" y="416.8" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">SKILL.md</text><text x="615.0" y="433.8" font-size="10.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">references/、scripts/</text><path d="M470,421 L528,421" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f3-ab)"/><path d="M360,450 L360,478" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f3-ab)"/><rect x="250" y="480" width="220" height="58" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="360.0" y="514.0" font-size="14" font-weight="700" fill="#1C2331" text-anchor="middle">步驟六 測試與迭代</text><circle cx="276" cy="509" r="15" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="276" y="513.7" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">驗</text><rect x="530" y="484" width="170" height="50" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="615.0" y="504.8" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">驗證紀錄</text><text x="615.0" y="521.8" font-size="10.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">勘誤表</text><path d="M470,509 L528,509" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f3-ab)"/><path d="M470,521 L500,521 L500,257 L472,257" fill="none" stroke="#D4450C" stroke-width="1.4" marker-end="url(#f3-ao)"/><text x="508" y="354" font-size="11" font-weight="400" fill="#D4450C" text-anchor="start">六類測試</text><text x="508" y="370" font-size="11" font-weight="400" fill="#D4450C" text-anchor="start">不通過時</text><text x="508" y="386" font-size="11" font-weight="400" fill="#D4450C" text-anchor="start">回頭修正</text></svg><figcaption>圖4　六步驟蒸餾流程總覽，左欄為各步驟丟棄的內容，右欄為交給下一步的產出，橙色線為測試不通過時的回頭修正路徑</figcaption></figure>
+<p class="cap">表2　六個步驟的操作、產出與丟棄內容</p>
+<div class="table-wrap"><table>
+<thead><tr><th>步驟</th><th>操作</th><th>做什麼</th><th>產出</th><th>丟棄</th></tr></thead>
+<tbody>
+<tr><td>一 定任務</td><td>定</td><td>列出 Skill 要完成的任務，決定要從書籍中取什麼</td><td>任務清單、外部補充清單</td><td>與任務無關的章節</td></tr>
+<tr><td>二 拆知識單元</td><td>拆</td><td>把書籍拆成可獨立使用的知識單元</td><td>知識單元登錄表、勘誤候選</td><td>連接句、修辭、重複說明</td></tr>
+<tr><td>三 分流與濃縮</td><td>分、濃</td><td>依知識類型分流，用固定句型改寫</td><td>規則、決策表、公式、資料檔</td><td>背景與歷史敘述（原因與例外留在參考檔）</td></tr>
+<tr><td>四 接成流程</td><td>接</td><td>依任務串成流程，可計算者寫成程式</td><td>任務流程表、計算程式</td><td>書籍的章節順序</td></tr>
+<tr><td>五 封裝</td><td>封</td><td>把成果放進對的檔案，依平台調整寫法</td><td>SKILL.md、references/、scripts/</td><td>無</td></tr>
+<tr><td>六 測試與迭代</td><td>驗</td><td>以數值、邏輯、邊界、缺漏、法規、工程情境六類測試反驗</td><td>驗證紀錄、勘誤表</td><td>無</td></tr>
+</tbody></table></div>
+<p>以下各節依相同格式說明每一步，先寫這一步要解決的問題，再列作業程序、判斷規則與完成條件，最後附一則提示範例。提示範例為通用範本，非模板大師原檔，讀者可替換書名與章節後貼入對話使用。</p>
+
+<h3 id="s3-1">3.1 步驟一　定任務</h3>
+<p>Skill 要會做哪些事，必須在閱讀書籍之前決定。沒有任務清單就開始讀，產出會變成全書摘要，Skill 接到工作時仍不知道要做什麼。</p>
+<h4>作業程序</h4>
+<ol>
+<li>列出使用者會交給 Skill 的工作，每件寫成「動詞＋對象＋條件」。10～20 件為參考值，依書的範圍與使用情境增減。</li>
+<li>為每件工作標示類型，分為計算、撰寫、審查、查詢四類。</li>
+<li>逐件寫下工程師做這件事時手邊需要的知識。</li>
+<li>翻閱目錄，把需要的知識對應到章節；對應不到的記入外部補充清單。</li>
+<li>確認使用地依據，包括國家、主管機關與契約規範，並比對它與原書規範體系的差異。</li>
+<li>決定 Skill 的識別名與顯示名稱。</li>
+</ol>
+<h4>判斷規則</h4>
+<ul>
+<li>蒸餾範圍取任務需要與書籍中提供的交集。書籍中有、任務用不到的內容，只在術語表或章節摘要留一行。</li>
+<li>任務需要、書籍中沒有的內容（例如國內法規），列入外部補充清單，留到步驟四查證，<span class="accent-bold">不得憑記憶補寫</span>。</li>
+<li>原書規範體系與使用地不同時，在本步驟就定案分工，原書方法作為計算方法，使用地法規作為首要依據。</li>
+<li>列到使用者常做的工作類型都已涵蓋、再也列不出新任務時停止，不為湊數拆分同一件工作。</li>
+</ul>
+<h4>完成條件</h4>
+<ul class="checklist">
+<li>任務清單涵蓋使用者常做的計算、撰寫、審查與查詢工作</li>
+<li>每件任務都對應到章節或外部補充清單</li>
+<li>已記錄使用地依據與原書規範體系的關係</li>
+</ul>
+<p class="cap-pre">提示範例（通用範本，非本案原檔）</p>
+<pre class="code">我要把《書名》製作成 Skill。請先不要摘要全書。
+請依目錄列出工程師會交給這個 Skill 的 15 件工作，
+每件寫成「動詞＋對象＋條件」，標示計算、撰寫、審查或查詢，
+並列出所需知識與對應章節。書籍中找不到的知識另列為外部補充清單。</pre>
+
+<h3 id="s3-2">3.2 步驟二　拆知識單元</h3>
+<p>任務相關章節要拆成可以單獨使用的最小內容，後續的分流與流程才有處理單位。本報告稱這個單位為知識單元，可以是一條規定、一個公式及其適用條件、一張表、一個定義、一個步驟、一個例題或一個失敗教訓。拆解採三遍讀法（表3），判斷一段文字是否成為單元，則用五個問題（圖5），本報告稱為單元五問。第五問專門找出限制、例外、風險與禁止事項，模板工程的支撐失穩、拆模時機與材料缺陷多屬此類，常比公式本身更重要。</p>
+<p class="cap">表3　三遍讀法</p>
+<div class="table-wrap"><table>
+<thead><tr><th>遍次</th><th>讀什麼</th><th>做什麼</th><th>產出</th></tr></thead>
+<tbody>
+<tr><td>第一遍 掃描</td><td>目錄、各章標題、公式、表、例題、圖說</td><td>清點知識資產，標記對應任務清單的章節</td><td>資產清冊（公式、表、例題、頁碼）</td></tr>
+<tr><td>第二遍 精讀</td><td>任務相關章節，逐段</td><td>拆成知識單元，每個單元記出處</td><td>知識單元清單</td></tr>
+<tr><td>第三遍 交叉</td><td>例題、表格、前後章引用</td><td>例題逐步對公式重算，表格抽格重算，前後章數值比對</td><td>勘誤候選、驗證項目</td></tr>
+</tbody></table></div>
+<figure class="figure-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" role="img" aria-label="三遍讀法與單元五問" font-family="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif" style="width:100%;height:auto;display:block"><defs><marker id="f4-ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2C5F8A"/></marker><marker id="f4-ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8A96A3"/></marker><marker id="f4-ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#D4450C"/></marker></defs><rect width="720" height="380" fill="#FFFFFF"/><rect x="20" y="20" width="280" height="80" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="160.0" y="46.4" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">第一遍 掃描</text><text x="160.0" y="64.9" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">目錄、標題、公式、表、例題</text><text x="160.0" y="83.4" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">產出：資產清冊（含頁碼）</text><path d="M160,100 L160,130" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f4-ab)"/><rect x="20" y="132" width="280" height="80" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="160.0" y="158.4" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">第二遍 精讀</text><text x="160.0" y="176.9" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">任務相關章節，逐段</text><text x="160.0" y="195.4" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">產出：知識單元清單</text><path d="M160,212 L160,242" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f4-ab)"/><rect x="20" y="244" width="280" height="80" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="160.0" y="270.4" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">第三遍 交叉</text><text x="160.0" y="288.9" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">例題重算、表格抽格、前後章比對</text><text x="160.0" y="307.4" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">產出：勘誤候選、驗證項目</text><rect x="340" y="40" width="360" height="160" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="520.0" y="78.6" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">單元五問（對每一段文字）</text><text x="520.0" y="97.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">1 讓讀者能做什麼（判斷、計算、選擇、檢查）</text><text x="520.0" y="115.6" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">2 在什麼條件下適用</text><text x="520.0" y="134.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">3 需要什麼輸入</text><text x="520.0" y="152.6" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">4 結果用在哪裡</text><text x="520.0" y="171.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">5 有哪些限制、例外、風險與禁止事項</text><path d="M300,172 L320,172 L320,120 L338,120" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f4-ab)"/><rect x="340" y="250" width="170" height="80" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="425.0" y="276.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">任一問可答</text><text x="425.0" y="294.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">列為知識單元</text><text x="425.0" y="312.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">編號並記出處</text><rect x="530" y="250" width="170" height="80" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="615.0" y="276.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">五問都答不出</text><text x="615.0" y="294.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">背景或連接敘述</text><text x="615.0" y="312.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">主檔不放</text><path d="M425,200 L425,248" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f4-ab)"/><path d="M615,200 L615,248" fill="none" stroke="#8A96A3" stroke-width="1.4" marker-end="url(#f4-ag)"/></svg><figcaption>圖5　三遍讀法的順序與第二遍精讀時使用的單元五問，五問都答不出的段落不列為知識單元</figcaption></figure>
+<h4>作業程序</h4>
+<ol>
+<li>第一遍掃描全書，建立資產清冊並記下頁碼。</li>
+<li>第二遍逐段精讀任務相關章節，以單元五問判斷，每個單元給編號並記出處。</li>
+<li>第三遍用例題逐步對公式重算，抽格重算表格，比對前後章數值，記下勘誤候選。</li>
+<li>將單元登錄於知識單元登錄表（附錄表A1）。</li>
+</ol>
+<h4>判斷規則</h4>
+<ul>
+<li>五問是主要判斷工具。五問都答不出的段落多屬背景或連接敘述，不列為單元；只答得出第五問的安全原則、定義限制或禁止事項，仍列為單元。</li>
+<li>公式連同適用條件、單位與夾限一起拆出，不可只抄式子。</li>
+<li>例題記下輸入與答案，供步驟六重算。</li>
+<li>說明原因的文字不單獨成為單元，附在相關規則的單元內，供步驟三決定留在主檔或參考檔。</li>
+</ul>
+<h4>完成條件</h4>
+<ul class="checklist">
+<li>任務相關章節全部拆完</li>
+<li>例題全部登錄輸入與答案</li>
+<li>每個單元都有編號與出處頁碼</li>
+</ul>
+<p class="cap-pre">提示範例（通用範本，非本案原檔）</p>
+<pre class="code">請逐段讀第 3 章。每一段先回答五個問題：
+能讓讀者做什麼、在什麼條件下適用、需要什麼輸入、結果用在哪裡、
+有哪些限制例外風險與禁止事項。
+能答的段落列為知識單元，給編號 K3-01 起，記頁碼與式號；
+五題都答不出的段落標為背景，不列入。例題另記輸入與答案。</pre>
+
+<h3 id="s3-3">3.3 步驟三　分流與濃縮</h3>
+<p>拆出的單元類型各不相同，每一類該改寫成什麼形式、放到 Skill 的哪個檔案，由分流矩陣決定（圖6、表4）。這一步是蒸餾的核心，單元在這裡第一次離開書籍的章節位置。</p>
+<figure class="figure-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 560" role="img" aria-label="知識類型分流矩陣" font-family="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif" style="width:100%;height:auto;display:block"><defs><marker id="f5-ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2C5F8A"/></marker><marker id="f5-ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8A96A3"/></marker><marker id="f5-ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#D4450C"/></marker></defs><rect width="720" height="560" fill="#FFFFFF"/><text x="110" y="40" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">知識類型</text><text x="290" y="40" font-size="12.5" font-weight="700" fill="#2C5F8A" text-anchor="middle">主檔</text><text x="385" y="40" font-size="12.5" font-weight="700" fill="#2C5F8A" text-anchor="middle">references/</text><text x="480" y="40" font-size="12.5" font-weight="700" fill="#2C5F8A" text-anchor="middle">scripts/</text><text x="575" y="40" font-size="12.5" font-weight="700" fill="#2C5F8A" text-anchor="middle">examples/</text><text x="665" y="40" font-size="12.5" font-weight="700" fill="#2C5F8A" text-anchor="middle">刪除</text><rect x="20" y="62" width="680" height="38" fill="#F3F4F6"/><text x="30" y="86" font-size="13" font-weight="400" fill="#1C2331" text-anchor="start">定義</text><circle cx="290" cy="81" r="2" fill="#C9D1DA"/><circle cx="385" cy="81" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="480" cy="81" r="2" fill="#C9D1DA"/><circle cx="575" cy="81" r="2" fill="#C9D1DA"/><circle cx="665" cy="81" r="2" fill="#C9D1DA"/><text x="30" y="124" font-size="13" font-weight="400" fill="#1C2331" text-anchor="start">規則、限值</text><circle cx="290" cy="119" r="7" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="385" cy="119" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="480" cy="119" r="2" fill="#C9D1DA"/><circle cx="575" cy="119" r="2" fill="#C9D1DA"/><circle cx="665" cy="119" r="2" fill="#C9D1DA"/><rect x="20" y="138" width="680" height="38" fill="#F3F4F6"/><text x="30" y="162" font-size="13" font-weight="400" fill="#1C2331" text-anchor="start">決策條件</text><circle cx="290" cy="157" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="385" cy="157" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="480" cy="157" r="2" fill="#C9D1DA"/><circle cx="575" cy="157" r="2" fill="#C9D1DA"/><circle cx="665" cy="157" r="2" fill="#C9D1DA"/><text x="30" y="200" font-size="13" font-weight="400" fill="#1C2331" text-anchor="start">方法、程序</text><circle cx="290" cy="195" r="2" fill="#C9D1DA"/><circle cx="385" cy="195" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="480" cy="195" r="2" fill="#C9D1DA"/><circle cx="575" cy="195" r="2" fill="#C9D1DA"/><circle cx="665" cy="195" r="2" fill="#C9D1DA"/><rect x="20" y="214" width="680" height="38" fill="#F3F4F6"/><text x="30" y="238" font-size="13" font-weight="400" fill="#1C2331" text-anchor="start">公式</text><circle cx="290" cy="233" r="2" fill="#C9D1DA"/><circle cx="385" cy="233" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="480" cy="233" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="575" cy="233" r="2" fill="#C9D1DA"/><circle cx="665" cy="233" r="2" fill="#C9D1DA"/><text x="30" y="276" font-size="13" font-weight="400" fill="#1C2331" text-anchor="start">數值表</text><circle cx="290" cy="271" r="2" fill="#C9D1DA"/><circle cx="385" cy="271" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="480" cy="271" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="575" cy="271" r="2" fill="#C9D1DA"/><circle cx="665" cy="271" r="2" fill="#C9D1DA"/><rect x="20" y="290" width="680" height="38" fill="#F3F4F6"/><text x="30" y="314" font-size="13" font-weight="400" fill="#1C2331" text-anchor="start">例題</text><circle cx="290" cy="309" r="2" fill="#C9D1DA"/><circle cx="385" cy="309" r="2" fill="#C9D1DA"/><circle cx="480" cy="309" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="575" cy="309" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="665" cy="309" r="2" fill="#C9D1DA"/><text x="30" y="352" font-size="13" font-weight="400" fill="#1C2331" text-anchor="start">失敗案例、教訓</text><circle cx="290" cy="347" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="385" cy="347" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="480" cy="347" r="2" fill="#C9D1DA"/><circle cx="575" cy="347" r="2" fill="#C9D1DA"/><circle cx="665" cy="347" r="2" fill="#C9D1DA"/><rect x="20" y="366" width="680" height="38" fill="#F3F4F6"/><text x="30" y="390" font-size="13" font-weight="400" fill="#1C2331" text-anchor="start">文件格式</text><circle cx="290" cy="385" r="2" fill="#C9D1DA"/><circle cx="385" cy="385" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="480" cy="385" r="2" fill="#C9D1DA"/><circle cx="575" cy="385" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="665" cy="385" r="2" fill="#C9D1DA"/><text x="30" y="428" font-size="13" font-weight="400" fill="#1C2331" text-anchor="start">背景、歷史、論證</text><circle cx="290" cy="423" r="2" fill="#C9D1DA"/><circle cx="385" cy="423" r="7" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="480" cy="423" r="2" fill="#C9D1DA"/><circle cx="575" cy="423" r="2" fill="#C9D1DA"/><circle cx="665" cy="423" r="7" fill="#8A96A3" stroke="#8A96A3" stroke-width="1.4"/><rect x="20" y="442" width="680" height="38" fill="#F3F4F6"/><text x="30" y="466" font-size="13" font-weight="400" fill="#1C2331" text-anchor="start">受使用地法規管轄</text><circle cx="290" cy="461" r="2" fill="#C9D1DA"/><circle cx="385" cy="461" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><circle cx="480" cy="461" r="2" fill="#C9D1DA"/><circle cx="575" cy="461" r="2" fill="#C9D1DA"/><circle cx="665" cy="461" r="2" fill="#C9D1DA"/><path d="M240,50 L240,480" fill="none" stroke="#C9D1DA" stroke-width="1"/><circle cx="40" cy="506" r="7" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="55" y="510" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">主要去處</text><circle cx="150" cy="506" r="7" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.4"/><text x="165" y="510" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">部分內容</text><circle cx="300" cy="506" r="7" fill="#8A96A3" stroke="#8A96A3" stroke-width="1.4"/><text x="315" y="510" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">刪除</text><text x="30" y="536" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">部分內容：規則僅最常用者進主檔；背景僅保留公式適用原因與例外條件於章節摘要。</text><text x="30" y="556" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">受使用地法規管轄者先標記「待本地化」，查證後寫入依據檔（tw_basis）。</text></svg><figcaption>圖6　知識類型分流矩陣，橫列為知識類型，直欄為 Skill 中的去處</figcaption></figure>
+<p class="cap">表4　知識類型、判斷特徵、改寫形式與去處</p>
+<div class="table-wrap"><table>
+<thead><tr><th>知識類型</th><th>判斷特徵</th><th>改寫形式</th><th>去處</th></tr></thead>
+<tbody>
+<tr><td>定義</td><td>稱為、是指</td><td>一句定義＋英文原名</td><td>術語表</td></tr>
+<tr><td>規則、限值</td><td>應、不得、最小、最大</td><td>當 X 時，Y；否則 Z＋出處</td><td>速查表；最重要者進主檔核心框架</td></tr>
+<tr><td>決策條件</td><td>多個情況各有不同做法</td><td>決策表（條件欄＋結果欄）</td><td>主檔核心框架、速查表</td></tr>
+<tr><td>方法、程序</td><td>首先、其次、步驟</td><td>編號步驟＋每步輸入輸出</td><td>方法檔（patterns）</td></tr>
+<tr><td>公式</td><td>式號、變數定義</td><td>式子＋單位＋適用條件＋夾限＋式號</td><td>方法檔＋計算程式</td></tr>
+<tr><td>數值表</td><td>表號、行列</td><td>可轉錄者轉 JSON；有規律者反推等式並逐格驗證；過於密集者抽原頁</td><td>程式資料檔、原表頁檔</td></tr>
+<tr><td>例題</td><td>Example、已知與答案</td><td>輸入、預期輸出、容許差</td><td>回歸驗證、範例檔</td></tr>
+<tr><td>失敗案例、教訓</td><td>事故、錯誤、警告</td><td>反模式「不得…，因為…」＋審查檢核項</td><td>章節摘要、審查表、主檔常見錯誤</td></tr>
+<tr><td>文件格式</td><td>計算書、報告的構成</td><td>章節範本＋待填欄位</td><td>文件範本</td></tr>
+<tr><td>背景、歷史、論證</td><td>早期、研究顯示</td><td>主檔刪除；說明公式適用原因或例外條件者，留在章節摘要</td><td>章節摘要，或刪除</td></tr>
+<tr><td>受使用地法規管轄</td><td>安全、許可、拆模、許可差、簽章</td><td>標記待本地化，查證後改以使用地規定為主</td><td>依據檔（tw_basis）</td></tr>
+</tbody></table></div>
+<p>分流之後要把保留的單元濃縮。原書常用一段敘述說明何時用哪個方法，Skill 需要的則是 AI 可以直接套用的句型（表5）。改寫時有三樣東西一律不改，分別是術語原名，式號、表號與條號，以及數值與單位，這三樣是日後回查原書與核對法規的線索。</p>
+<p class="cap">表5　常用改寫句型</p>
+<div class="table-wrap"><table>
+<thead><tr><th>原書寫法</th><th>改寫句型</th><th>模板大師的例子</th></tr></thead>
+<tbody>
+<tr><td>一段敘述說明何時用哪個方法</td><td>當 X 時，用 Y；否則用 Z</td><td>任一平面尺寸大於 2.0 m 時視為牆，否則為柱</td></tr>
+<tr><td>多個條件分段說明</td><td>決策表</td><td>側壓公式選用表（條件為構件、R、h、坍度、振動）</td></tr>
+<tr><td>長篇計算示範</td><td>載重鏈＋檢核清單</td><td>面板→小肋→大肋→繫結器，每層檢核彎曲、剪力、撓度後取最小值</td></tr>
+<tr><td>應注意的提醒</td><td>不得 X，因為 Y</td><td>可調鋼管支柱不得連接使用（<span class="law-cite">營造安全衛生設施標準第 135 條</span>）</td></tr>
+<tr><td>失敗事故描述</td><td>原因清單＋對策＋檢核項</td><td>13 項失敗原因轉為審查表 R1～R4</td></tr>
+<tr><td>表格</td><td>規則或資料檔</td><td>斜撐最小水平力表改寫為 0.718 kPa×h/2，h≥2.44 m 時不小於 1.46 kN/m</td></tr>
+</tbody></table></div>
+<h4>作業程序</h4>
+<ol>
+<li>依表4判斷每個單元的知識類型。</li>
+<li>決定每個單元保留、縮成一行、刪除或標記待本地化。</li>
+<li>保留的單元依表5句型改寫。</li>
+<li>在登錄表填入改寫形式與去處。</li>
+<li>從規則與決策表中挑出最常用、影響最大的幾項，標記放入主檔核心框架。</li>
+</ol>
+<h4>判斷規則</h4>
+<ul>
+<li>會影響判斷、計算、文件內容或審查結論的，保留。</li>
+<li>說明規則原因或例外條件的，主檔只留一行，完整內容留在章節摘要或方法檔，避免刪掉適用邊界。</li>
+<li>純敘述、重複、修辭、產品介紹與已不適用的舊做法，刪除。</li>
+<li>可能與使用地法規衝突的，先不刪，標記待本地化。</li>
+</ul>
+<h4>完成條件</h4>
+<ul class="checklist">
+<li>每個單元都有去處或刪除理由</li>
+<li>受使用地法規管轄的單元已標記</li>
+<li>改寫後仍保留原書術語、式號與表號</li>
+<li>主檔核心框架只收最常用、最關鍵的決策表</li>
+</ul>
+<p class="cap-pre">提示範例（通用範本，非本案原檔）</p>
+<pre class="code">以下是第 3 章的知識單元清單。請依附表的分流矩陣，
+逐一標示知識類型、去留、改寫形式與去處。
+保留者用「當 X 時，Y；否則 Z」或決策表改寫，
+術語原名、式號表號、數值與單位一律不改。
+涉及安全、拆模、許可差、簽章者標記「待本地化」。</pre>
+
+<h3 id="s3-4">3.4 步驟四　接成流程</h3>
+<p>分流後的單元仍依類型存放，AI 接到一件工作時，還需要知道先問什麼、先判斷什麼、再算什麼。本步驟從任務清單逐件取出工作，模擬工程師實際的作業順序，依序回答五個問題，把單元串成任務流程，本報告稱為任務追蹤法。</p>
+<ol>
+<li>第一步要先知道什麼，缺了會怎樣。答案成為輸入清單與缺漏時的詢問項目。</li>
+<li>要先判斷什麼。答案決定哪張決策表放在流程前段。</li>
+<li>接著算什麼，用哪個知識單元。答案成為計算順序。</li>
+<li>結果放到哪裡、用什麼格式。答案成為輸出格式與文件章節。</li>
+<li>這一步常犯什麼錯。答案成為該步驟旁的檢查項目。</li>
+</ol>
+<p>流程中的計算是否寫成程式，依表6判斷。多變數、重複計算、表格查值、互相依賴的複合計算與高精度要求的工作，優先寫成程式；單一公式的簡單代入，則依任務風險與平台能否執行程式決定。程式本身也可能抄錯公式、換錯單位或判斷錯適用條件，所以必須具備輸入檢核、單位檢核、適用條件判斷與錯誤訊息，結果再以原書例題、規範算例或獨立手算交叉驗證。</p>
+<p class="cap">表6　程式化判斷</p>
+<div class="table-wrap"><table>
+<thead><tr><th>情況</th><th>處理方式</th></tr></thead>
+<tbody>
+<tr><td>有公式、結果是數字</td><td>寫成程式子指令，並以書籍中例題驗證</td></tr>
+<tr><td>有表格、要查值</td><td>轉成資料檔由程式讀取</td></tr>
+<tr><td>一連串計算互相依賴</td><td>寫成整體子指令（例如 design），輸出計算書</td></tr>
+<tr><td>判斷靠文字描述、因案而異</td><td>寫成規則表，不寫程式</td></tr>
+<tr><td>單一公式、簡單代入</td><td>依任務風險決定；可逐式列出代入過程</td></tr>
+<tr><td>平台不能執行程式</td><td>主檔列出公式，要求逐式列出代入過程</td></tr>
+</tbody></table></div>
+<p>流程的每一步都要再問一次，這一步在使用地有沒有法規或契約規定。有規定時，在該步驟插入依據查證，查證依下列五條規則辦理。</p>
+<ol>
+<li>以官方原文查證，包括法規資料庫、主管機關公告與規範原文，記錄名稱、發布或修正日期、生效日期、條號與查證日期；Skill 改版或使用前，再以法規資料庫比對是否已修正。</li>
+<li>同一主題有多個版本時（例如各機關的 03110 章），製作版本比較表。</li>
+<li>查到的條文依法規或規範分別編號；查不到的列入待核清單，寫明目前採用的數值與建議取得來源。</li>
+<li>原書數值與使用地規定不同時，流程採使用地規定，原書數值保留為參考並加註。</li>
+<li>單位不同時，重新推導公式常數，門檻值同步換算，再以例題驗證。每個換算值保留原始值、精確換算值與顯示值；程式以完整精度判斷臨界條件，文件顯示取整後的值。</li>
+</ol>
+<p>查到的依據依法律與技術層級分層記錄（表7），每項計算結果都寫明採用的依據、版本、適用條件與資料來源。分層的目的在於分工，法令與契約決定要做什麼、做到什麼程度，設計方法決定怎麼算，兩者不能互相取代。</p>
+<p class="cap">表7　依據層級與模板大師的對應</p>
+<div class="table-wrap"><table>
+<thead><tr><th>層級</th><th>內容</th><th>模板大師的例子</th></tr></thead>
+<tbody>
+<tr><td>第一層 法令強制要求</td><td>職業安全衛生法規、建築相關法規</td><td>營造安全衛生設施標準第 130～146 條（TW-L）</td></tr>
+<tr><td>第二層 契約與工程規範</td><td>契約、契約引用的施工綱要規範、施工規範、國家標準</td><td>03110 章（依契約版本）、結構混凝土施工規範第四章、CNS（TW-S）</td></tr>
+<tr><td>第三層 設計方法與技術指南</td><td>計算方法、技術指南、材料力學</td><td>ACI 347 與原書公式（patterns.md）</td></tr>
+<tr><td>第四層 補充資料</td><td>製造商型錄、試驗報告、工程案例</td><td>繫結器與支柱容許載重、合板試驗報告</td></tr>
+</tbody></table></div>
+<h4>作業程序</h4>
+<ol>
+<li>從任務清單取一件任務，依五個問題填寫任務流程表（附錄表A2）。</li>
+<li>每一步填入用到的知識單元編號與缺漏時要詢問的項目。</li>
+<li>逐步檢查使用地規定，有規定者依五條查證規則處理並記錄。</li>
+<li>依表6決定哪些步驟寫成程式，並列出程式的輸入欄位。</li>
+<li>重複第 1～4 項，直到每件任務都有流程表。</li>
+</ol>
+<h4>完成條件</h4>
+<ul class="checklist">
+<li>每件任務都有一張流程表</li>
+<li>每一步都寫明缺漏時要詢問的項目</li>
+<li>每一步都已檢查使用地規定，查不到的已列入待核清單</li>
+</ul>
+<p class="cap-pre">提示範例（通用範本，非本案原檔）</p>
+<pre class="code">任務是「設計牆模」。請模擬工程師的實際作業順序，
+逐步列出：動作、用到的知識單元編號、缺資料時要問使用者的項目、
+這一步在台灣有無法規或契約規定、輸出。
+有規定者請標示待查證，不要憑記憶填入條號或數值。</pre>
+
+<h3 id="s3-5">3.5 步驟五　封裝</h3>
+<p>前四步的成果要依使用頻率與長度放進對的檔案（表8），知識內容的語意在這一步不再改動。判斷原則延續第 2.2 節的載入機制，每次任務都會用到的放主檔，偶爾查閱或篇幅長的放參考檔，可計算的放程式。</p>
+<p class="cap">表8　成果放置判斷</p>
+<div class="table-wrap"><table>
+<thead><tr><th>內容</th><th>放置位置</th></tr></thead>
+<tbody>
+<tr><td>觸發描述（何時使用本 Skill）</td><td>主檔開頭 name、description</td></tr>
+<tr><td>任務流程（步驟四流程表的精簡版）</td><td>主檔</td></tr>
+<tr><td>最常用的決策表與規則</td><td>主檔核心框架</td></tr>
+<tr><td>參考檔索引（每個檔案何時讀取）</td><td>主檔</td></tr>
+<tr><td>缺漏處理、常見錯誤</td><td>主檔</td></tr>
+<tr><td>依據、速查、方法、術語、章節摘要、範本、審查表</td><td>references/</td></tr>
+<tr><td>程式、資料檔</td><td>scripts/</td></tr>
+<tr><td>範例輸入輸出、空白範本</td><td>examples/</td></tr>
+</tbody></table></div>
+<p>同一份內容在不同平台只調整主檔寫法、計算執行方式與打包方式，模板大師三個版本的實際差異見第 4.7 節。各平台的檔數與命名限制會隨版本調整，封裝前應先查閱該平台的現行說明。</p>
+<h4>作業程序</h4>
+<ol>
+<li>建立 Skill 資料夾，以及 SKILL.md、references/、scripts/、examples/。</li>
+<li>在主檔開頭寫 name 與 description，description 寫明這個 Skill 做什麼、何時使用。</li>
+<li>主檔依序放入任務流程精簡版、核心決策表、參考檔索引、缺漏處理與常見錯誤。</li>
+<li>其餘內容依表8放入各資料夾。</li>
+<li>依目標平台調整主檔寫法與打包方式。</li>
+</ol>
+<h4>完成條件</h4>
+<ul class="checklist">
+<li>主檔只含觸發描述、流程、核心決策表、索引、缺漏處理與常見錯誤</li>
+<li>索引寫明每個參考檔的讀取時機</li>
+<li>主檔本文在 500 行以內</li>
+</ul>
+
+<h3 id="s3-6">3.6 步驟六　測試與迭代</h3>
+<p>封裝完成的 Skill 要通過六類測試（表9、圖7），確認它算得對、選得對、臨界值判斷正確、缺資料時會問、引用的依據是現行版本，並且在真實案件中用得上。任一類不合格，依表10回到對應步驟修正後重測。</p>
+<p class="cap">表9　六類測試</p>
+<div class="table-wrap"><table>
+<thead><tr><th>測試</th><th>做法</th><th>合格標準</th></tr></thead>
+<tbody>
+<tr><td>T1 數值驗證</td><td>以程式重算書中例題與抽樣表格；檢查單位一致性；比對主檔與參考檔的同一數值</td><td>在印刷位數的容許差內；跨檔數值一致</td></tr>
+<tr><td>T2 邏輯驗證</td><td>依任務清單寫 20 題典型問題，只用 Skill 回答，檢查公式選用與適用範圍</td><td>依五項標準評分（見下文）</td></tr>
+<tr><td>T3 邊界驗證</td><td>輸入臨界值前後、最小值、最大值與極端值</td><td>條件分支正確；超出範圍時提出警示</td></tr>
+<tr><td>T4 缺漏驗證</td><td>給不完整或互相矛盾的輸入</td><td>列出缺漏或矛盾並詢問，不推估</td></tr>
+<tr><td>T5 法規驗證</td><td>問涉及法規、版本與契約差異的問題</td><td>先引用使用地現行規定並標明版本，再提原書方法</td></tr>
+<tr><td>T6 工程情境驗證</td><td>以真實案件、異常與失敗案例測試；由未參與建置的工程師出題評分</td><td>輸出可供工程師審查採用，並揭露不確定之處</td></tr>
+</tbody></table></div>
+<figure class="figure-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 600" role="img" aria-label="六類測試與迭代" font-family="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif" style="width:100%;height:auto;display:block"><defs><marker id="f6-ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2C5F8A"/></marker><marker id="f6-ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8A96A3"/></marker><marker id="f6-ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#D4450C"/></marker></defs><rect width="720" height="600" fill="#FFFFFF"/><text x="360" y="20" font-size="13" font-weight="700" fill="#2C5F8A" text-anchor="middle">六類測試</text><text x="600" y="20" font-size="13" font-weight="700" fill="#D4450C" text-anchor="middle">不合格時回到</text><rect x="250" y="35" width="220" height="56" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="360.0" y="58.6" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">T1 數值驗證</text><text x="360.0" y="77.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">例題、表格、單位、跨檔一致</text><rect x="500" y="35" width="200" height="56" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="600.0" y="58.8" font-size="12.5" font-weight="700" fill="#1C2331" text-anchor="middle">步驟六、三</text><text x="600.0" y="76.2" font-size="11.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">列勘誤；統一跨檔寫法</text><path d="M470,63 L498,63" fill="none" stroke="#D4450C" stroke-width="1.4" marker-end="url(#f6-ao)"/><path d="M250,63 L215,63" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="250" y="115" width="220" height="56" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="360.0" y="138.6" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">T2 邏輯驗證</text><text x="360.0" y="157.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">20 題典型問題，五項評分</text><rect x="500" y="115" width="200" height="56" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="600.0" y="138.8" font-size="12.5" font-weight="700" fill="#1C2331" text-anchor="middle">步驟三、五</text><text x="600.0" y="156.2" font-size="11.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">補決策條件與依據</text><path d="M470,143 L498,143" fill="none" stroke="#D4450C" stroke-width="1.4" marker-end="url(#f6-ao)"/><path d="M250,143 L215,143" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="250" y="195" width="220" height="56" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="360.0" y="218.6" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">T3 邊界驗證</text><text x="360.0" y="237.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">臨界值、最小最大、極端輸入</text><rect x="500" y="195" width="200" height="56" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="600.0" y="218.8" font-size="12.5" font-weight="700" fill="#1C2331" text-anchor="middle">步驟四</text><text x="600.0" y="236.2" font-size="11.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">修正條件分支</text><path d="M470,223 L498,223" fill="none" stroke="#D4450C" stroke-width="1.4" marker-end="url(#f6-ao)"/><path d="M250,223 L215,223" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="250" y="275" width="220" height="56" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="360.0" y="298.6" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">T4 缺漏驗證</text><text x="360.0" y="317.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">缺資料、矛盾資料</text><rect x="500" y="275" width="200" height="56" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="600.0" y="298.8" font-size="12.5" font-weight="700" fill="#1C2331" text-anchor="middle">步驟四</text><text x="600.0" y="316.2" font-size="11.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">補流程表缺漏時詢問</text><path d="M470,303 L498,303" fill="none" stroke="#D4450C" stroke-width="1.4" marker-end="url(#f6-ao)"/><path d="M250,303 L215,303" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="250" y="355" width="220" height="56" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="360.0" y="378.6" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">T5 法規驗證</text><text x="360.0" y="397.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">現行版本、契約差異</text><rect x="500" y="355" width="200" height="56" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="600.0" y="378.8" font-size="12.5" font-weight="700" fill="#1C2331" text-anchor="middle">步驟三、四</text><text x="600.0" y="396.2" font-size="11.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">更新依據檔與版本</text><path d="M470,383 L498,383" fill="none" stroke="#D4450C" stroke-width="1.4" marker-end="url(#f6-ao)"/><path d="M250,383 L215,383" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="250" y="435" width="220" height="56" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="360.0" y="458.6" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="middle">T6 工程情境驗證</text><text x="360.0" y="477.1" font-size="12.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">真實案件、失敗案例、盲測</text><rect x="500" y="435" width="200" height="56" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="600.0" y="458.8" font-size="12.5" font-weight="700" fill="#1C2331" text-anchor="middle">步驟一</text><text x="600.0" y="476.2" font-size="11.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">重寫任務清單</text><path d="M470,463 L498,463" fill="none" stroke="#D4450C" stroke-width="1.4" marker-end="url(#f6-ao)"/><path d="M250,463 L215,463" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><path d="M215,63 L215,532" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f6-ab)"/><rect x="110" y="534" width="210" height="44" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="215.0" y="551.8" font-size="12.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">T1～T5 合格、T6 完成</text><text x="215.0" y="569.2" font-size="11.0" font-weight="400" fill="#FFFFFF" text-anchor="middle">交付 Skill</text><text x="208" y="515" font-size="11" font-weight="400" fill="#2C5F8A" text-anchor="end">合格</text><path d="M600,515 L600,556 L360,556 L360,517" fill="none" stroke="#D4450C" stroke-width="1.4" marker-end="url(#f6-ao)"/><text x="480" y="574" font-size="11" font-weight="400" fill="#D4450C" text-anchor="middle">修正後重測</text></svg><figcaption>圖7　六類測試與不合格時的處理路徑，全數合格才交付 Skill</figcaption></figure>
+<p>T2 的典型問題不以「答得出來」為合格，每題依答案正確性、依據可追溯性、條件判斷正確性、缺漏資訊處理與不確定性揭露五項評分。程式與測試資料同樣要記錄版本，程式改版後重跑全部 T1、T3 項目。</p>
+<p>例題重現時，程式結果與書籍不符，依序做四項檢查。第一，程式輸入的單位與條件是否與例題相同。第二，公式的適用條件是否選對。第三，用書籍中公式手算一次，看書籍的答案是否自相矛盾。第四，同一數值在書籍中其他位置（前後章、表與例題）是否不同。確認是書籍的錯誤時，原書內容不改，另列勘誤，記錄位置、印刷值、正確值與判斷依據，保留回查原書的線索。</p>
+<p class="cap">表10　測試不合格時的回頭修正對照</p>
+<div class="table-wrap"><table>
+<thead><tr><th>測試發現的問題</th><th>回到哪一步</th><th>修正方式</th></tr></thead>
+<tbody>
+<tr><td>T1 例題重算不符，且確認程式無誤</td><td>步驟六</td><td>列勘誤，保留原印刷值</td></tr>
+<tr><td>T1 跨檔數值不一致</td><td>步驟三、五</td><td>統一寫法，註明精確值與顯示值</td></tr>
+<tr><td>T2 選錯公式或找不到依據</td><td>步驟三、五</td><td>補條件至決策表、速查表或主檔核心框架</td></tr>
+<tr><td>T3 臨界值判斷錯誤</td><td>步驟四</td><td>修正程式或規則的條件分支，補邊界測試</td></tr>
+<tr><td>T4 缺資料時 Skill 自行推估</td><td>步驟四</td><td>補流程表的缺漏時詢問欄</td></tr>
+<tr><td>T5 先引用原書方法或引用舊版</td><td>步驟三、四</td><td>重新分流受管轄單元，更新依據檔與版本</td></tr>
+<tr><td>T6 實務上用不上</td><td>步驟一</td><td>依任務清單重寫，每項附輸入、產出與範例</td></tr>
+</tbody></table></div>
+<h4>完成條件</h4>
+<ul class="checklist">
+<li>T1 例題重現全數通過，差異已列入勘誤並標明確認狀態</li>
+<li>T2 二十題典型問題五項評分達標</li>
+<li>T3、T4 臨界值與缺漏情境下，Skill 正確分支或詢問</li>
+<li>T5 法規問題先引用使用地現行規定並標明版本</li>
+<li>T6 已完成，或已在交付文件中註明尚未進行</li>
+</ul>
+</section>
+
+<section class="section" id="s4">
+<div class="section-number">第四章</div>
+<h2>四、案例驗證　模板大師</h2>
+<h3 id="s4-1">4.1 案例背景</h3>
+<p>驗證案例的原書為 Peurifoy 與 Oberlender 合著的《Formwork for Concrete Structures》第 4 版<a class="ref" href="#ref1">[1]</a>，全書 17 章，涵蓋側壓力、模板材料性質、模板設計、支柱與施工架、模板失敗，以及各類構件的模板。側壓力公式沿用美國混凝土學會（American Concrete Institute, ACI）347 委員會的模板指南<a class="ref" href="#ref2">[2]</a>。筆者依本報告方法建置「模板大師」Skill，技術文件歷經 v1.0 至 v1.5 六次修訂，Skill 本身為 1.1.0 版，產出 Claude、Gemini、ChatGPT 三個平台的版本<a class="ref" href="#ref8">[8]</a>。</p>
+<h3 id="s4-2">4.2 步驟一的任務清單</h3>
+<p>任務清單決定了全書的讀法。表11 節錄其中七件任務，第 3、5 章因此要逐式精讀並程式化，第 7 章要轉成審查表，拆模時間則以國內規範為主。</p>
+<p class="cap">表11　模板大師任務、所需知識與來源（節錄）</p>
+<div class="table-wrap"><table>
+<thead><tr><th>任務</th><th>類型</th><th>所需知識</th><th>原書來源</th><th>外部補充</th></tr></thead>
+<tbody>
+<tr><td>計算牆模側壓力</td><td>計算</td><td>牆柱分類、側壓公式、係數、夾限</td><td>第 3 章</td><td>03110 章引用之方法</td></tr>
+<tr><td>決定小肋、大肋、繫結器間距</td><td>計算</td><td>木材容許應力、彎剪撓三項檢核</td><td>第 4、5 章</td><td>國內材料容許值</td></tr>
+<tr><td>檢核支柱與水平繫條</td><td>計算、審查</td><td>支柱容量、細長比、繫撐</td><td>第 5、6 章</td><td>營造安全衛生設施標準第 134～138 條</td></tr>
+<tr><td>撰寫模板計算書</td><td>撰寫</td><td>上列全部＋文件章節</td><td>第 5 章例題結構</td><td>同標準第 131 條設計與簽章規定</td></tr>
+<tr><td>撰寫施工計畫書</td><td>撰寫</td><td>施工順序、拆模、再撐、失敗預防</td><td>第 6、7、14 章</td><td>結構混凝土施工規範第四章</td></tr>
+<tr><td>審查計算書</td><td>審查</td><td>常見錯誤、檢核項目</td><td>第 7 章、全書反模式</td><td>法規條文</td></tr>
+<tr><td>查拆模時間</td><td>查詢</td><td>拆模時間表</td><td>第 2、5 章</td><td>規範表 4.7.1、03110 章</td></tr>
+</tbody></table></div>
+
+<h3 id="s4-3">4.3 第 3 章的拆解與濃縮</h3>
+<p>原書第 3 章約 19 頁，說明影響側壓力的因素，介紹全液壓式、牆模兩式、柱模式、其他密度的換算方式、單位重與化學係數表、由模底泵送時的壓力增加，以及垂直載重最小值，並以 9 個例題示範。第二遍精讀後拆出的單元如表12。</p>
+<p class="cap">表12　第 3 章知識單元（節錄）</p>
+<div class="table-wrap"><table>
+<thead><tr><th>編號</th><th>單元</th><th>五問摘要</th></tr></thead>
+<tbody>
+<tr><td>K3-01</td><td>牆與柱的定義（平面尺寸 2.0 m）</td><td>做什麼為選公式；條件為所有側模；輸入為平面尺寸；用於 K3-03 起</td></tr>
+<tr><td>K3-02</td><td>全液壓式 γh</td><td>做什麼為算上限；輸入為 γ、h；用於夾限與柱模</td></tr>
+<tr><td>K3-03</td><td>牆模式（R 低、高度小）</td><td>條件為 R＜2.13 m/h 且 h≤4.27 m，並受坍度與振動深度限制</td></tr>
+<tr><td>K3-04</td><td>牆模式（R 中或高度大）</td><td>條件為 2.13≤R≤4.57 m/h 或 h＞4.27 m</td></tr>
+<tr><td>K3-05</td><td>取 γh 的情形</td><td>條件為 R 大、坍度大、深振動或自充填混凝土</td></tr>
+<tr><td>K3-06</td><td>夾限 28.7<i>C</i><sub>w</sub>≤<i>P</i><sub>max</sub>≤γh</td><td>用於所有公式結果</td></tr>
+<tr><td>K3-07</td><td><i>C</i><sub>w</sub> 表</td><td>輸入為單位重；用於公式係數</td></tr>
+<tr><td>K3-08</td><td><i>C</i><sub>c</sub> 表</td><td>輸入為水泥種類、緩凝劑、爐石粉與飛灰比例</td></tr>
+<tr><td>K3-09</td><td>底部泵送 1.25γh</td><td>條件為由模底泵送</td></tr>
+<tr><td>K3-10</td><td>由泵送量換算澆置速率</td><td>輸入為泵送量與模內斷面積；用於 R</td></tr>
+<tr><td>K3-11</td><td>垂直載重最小值</td><td>用於樓板模</td></tr>
+<tr><td>K3-12 起</td><td>例題 3-1～3-9</td><td>用於驗證項目</td></tr>
+</tbody></table></div>
+<p>影響因素的文字說明被刪除，只把澆置速率、溫度、坍度、振動與摻料保留為輸入欄位；公式的沿革與其他規範的比較敘述也一併刪除。保留的單元經步驟三濃縮後，進入主檔核心框架的只有一段側壓力決策規則。先依平面尺寸分類，任一平面尺寸大於 2.0 m 為牆，否則為柱。柱模依式(1)計算。</p>
+<div class="eq"><span class="eq-body"><i>P</i><sub>max</sub> = γ<i>h</i></span><span class="eq-no">(1)</span></div>
+<p>牆模在 <i>R</i>＜2.13 m/h 且 <i>h</i>≤4.27 m 時依式(2)計算，2.13≤<i>R</i>≤4.57 m/h 或 <i>h</i>＞4.27 m 時依式(3)計算。</p>
+<div class="eq"><span class="eq-body"><i>P</i><sub>max</sub> = <i>C</i><sub>w</sub><i>C</i><sub>c</sub>［7.18 + 785<i>R</i>／(<i>T</i> + 17.8)］</span><span class="eq-no">(2)</span></div>
+<div class="eq"><span class="eq-body"><i>P</i><sub>max</sub> = <i>C</i><sub>w</sub><i>C</i><sub>c</sub>［7.18 + 1154／(<i>T</i> + 17.8) + 244<i>R</i>／(<i>T</i> + 17.8)］</span><span class="eq-no">(3)</span></div>
+<p>式(2)、式(3)的結果再以式(4)夾限。</p>
+<div class="eq"><span class="eq-body">28.7<i>C</i><sub>w</sub> ≤ <i>P</i><sub>max</sub> ≤ γ<i>h</i></span><span class="eq-no">(4)</span></div>
+<p>其中，<i>P</i><sub>max</sub> 為最大側壓力（kPa），γ 為混凝土單位重（kN/m³），<i>h</i> 為模板內混凝土深度（m），<i>R</i> 為澆置速率（m/h），<i>T</i> 為模板內混凝土溫度（°C），<i>C</i><sub>w</sub> 為單位重係數，<i>C</i><sub>c</sub> 為化學係數。<i>R</i>＞4.57 m/h、坍度大於 175 mm、振動深度大於 1.2 m 或使用自充填混凝土時，直接取 γ<i>h</i>；由模底泵送時，側壓力不小於 1.25γ<i>h</i>。</p>
+<p>同一章的其他單元流向主檔以外的檔案（圖8）。<i>C</i><sub>w</sub> 與 <i>C</i><sub>c</sub> 表進入速查表，式(1)～(4)連同式號、適用條件與夾限寫入方法檔 P1，並寫成計算程式的 pressure 子指令；例題成為回歸驗證項目，3 格與公式不符的表值列入勘誤；「表 3-3～3-5 左欄是澆置速率、不是牆高」這項常見誤用寫入主檔的注意事項與章節摘要的反模式。原本約 19 頁的內容，在 Claude 版主檔中只占 F1 的五列決策表。</p>
+<figure class="figure-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-label="第3章濃縮前後" font-family="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif" style="width:100%;height:auto;display:block"><defs><marker id="f7-ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2C5F8A"/></marker><marker id="f7-ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8A96A3"/></marker><marker id="f7-ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#D4450C"/></marker></defs><rect width="720" height="420" fill="#FFFFFF"/><rect x="25" y="70" width="210" height="190" rx="5" fill="#F3F4F6" stroke="#8A96A3" stroke-width="1.1"/><text x="130.0" y="132.0" font-size="14" font-weight="700" fill="#1C2331" text-anchor="middle">濃縮前（原書第 3 章）</text><text x="130.0" y="151.0" font-size="12.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">約 19 頁敘述</text><text x="130.0" y="170.0" font-size="12.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">公式 Eq. 3-1～3-5</text><text x="130.0" y="189.0" font-size="12.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">表 6 張</text><text x="130.0" y="208.0" font-size="12.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">例題 9 題</text><rect x="25" y="300" width="210" height="70" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="130.0" y="322.0" font-size="12.5" font-weight="700" fill="#1C2331" text-anchor="middle">刪除</text><text x="130.0" y="339.5" font-size="11.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">影響因素敘述、公式沿革</text><text x="130.0" y="357.0" font-size="11.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">與其他規範的比較</text><path d="M130,260 L130,298" fill="none" stroke="#8A96A3" stroke-width="1.4" marker-end="url(#f7-ag)"/><text x="345" y="30" font-size="13" font-weight="700" fill="#2C5F8A" text-anchor="middle">分流與濃縮</text><rect x="440" y="15" width="260" height="52" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="570.0" y="36.7" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">SKILL.md F1（Claude 版）</text><text x="570.0" y="54.7" font-size="11.5" font-weight="400" fill="#FFFFFF" text-anchor="middle">側壓力決策表 5 列</text><path d="M235,165 L330,165 L330,41 L438,41" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f7-ab)"/><rect x="440" y="81" width="260" height="52" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="570.0" y="102.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">cheatsheet.md 第 2 節</text><text x="570.0" y="120.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">側壓力公式、Cw、Cc 係數表</text><path d="M235,165 L330,165 L330,107 L438,107" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f7-ab)"/><rect x="440" y="147" width="260" height="52" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="570.0" y="168.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">patterns.md P1</text><text x="570.0" y="186.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">式號＋單位＋條件＋夾限</text><path d="M235,165 L330,165 L330,173 L438,173" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f7-ab)"/><rect x="440" y="213" width="260" height="52" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="570.0" y="234.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">formwork_calc.py pressure</text><text x="570.0" y="252.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">依公式計算側壓力（SI）</text><path d="M235,165 L330,165 L330,239 L438,239" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f7-ab)"/><rect x="440" y="279" width="260" height="52" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="570.0" y="300.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">verify 與勘誤</text><text x="570.0" y="318.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">例題重現；E-01～E-03 表值不符</text><path d="M235,165 L330,165 L330,305 L438,305" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f7-ab)"/><rect x="440" y="345" width="260" height="52" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="570.0" y="366.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">主檔注意事項、章節反模式</text><text x="570.0" y="384.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">表左欄是澆置速率，不是牆高</text><path d="M235,165 L330,165 L330,371 L438,371" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f7-ab)"/></svg><figcaption>圖8　原書第 3 章濃縮前後的內容去向，Claude 版主檔 F1 只保留五列側壓力決策表，其餘分流至速查表、方法檔、計算程式與審查表</figcaption></figure>
+
+<h3 id="s4-4">4.4 第 7 章失敗案例的轉換</h3>
+<p>失敗案例在書籍中以事故敘述呈現，寫進 Skill 前必須轉成審查時用得上的檢核項。原書第 7 章列舉模板失敗的原因、料斗落料與機動料車的動態力、橋梁假設工程倒塌案例與預防原則，分流結果如表13。</p>
+<p class="cap">表13　第 7 章分流結果</p>
+<div class="table-wrap"><table>
+<thead><tr><th>單元</th><th>類型</th><th>改寫方式</th><th>去處</th></tr></thead>
+<tbody>
+<tr><td>13 項失敗原因</td><td>失敗教訓</td><td>每項轉成一個檢核問題</td><td>審查表 R1～R4</td></tr>
+<tr><td>落料衝擊式、料車水平力式</td><td>公式</td><td>式子＋單位；保留結論「降低卸料速率比降低落距有效」</td><td>方法檔 P11、impact 子指令</td></tr>
+<tr><td>橋梁倒塌案例</td><td>失敗案例</td><td>每案濃縮為一行反模式</td><td>章節摘要</td></tr>
+<tr><td>預防原則</td><td>規則</td><td>對照國內法規後寫入</td><td>施工計畫書範本、依據檔</td></tr>
+<tr><td>事故經過敘述</td><td>背景</td><td>刪除</td><td>無</td></tr>
+</tbody></table></div>
+
+<h3 id="s4-5">4.5 設計牆模的任務流程</h3>
+<p>以任務追蹤法處理「設計牆模」，得到九個步驟（表14、圖9）。第 0 步先確認依據，依<span class="law-cite">《營造安全衛生設施標準》第 131 條</span>，高度 7 m 以上且面積達 330 m² 以上的模板支撐，須由專任工程人員或相關執業技師設計並簽章確認<a class="ref" href="#ref5">[5]</a>，因此流程一開始就詢問支撐高度與面積，同時確認契約採用的 03110 章版本。</p>
+<p class="cap">表14　設計牆模之流程與知識單元</p>
+<div class="table-wrap"><table>
+<thead><tr><th>順序</th><th>動作</th><th>用到的知識</th><th>缺漏時詢問</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>判斷依據（第 131 條門檻、契約 03110 版本）</td><td>依據檔 tw_basis</td><td>支撐高度、面積、契約版本</td></tr>
+<tr><td>1</td><td>分類牆或柱</td><td>K3-01</td><td>平面尺寸</td></tr>
+<tr><td>2</td><td>計算側壓力</td><td>K3-02～K3-10</td><td>R（或泵送量）、T、單位重、摻料</td></tr>
+<tr><td>3</td><td>面板容許跨距→小肋間距</td><td>第 4、5 章面板檢核</td><td>面板材料容許值與來源</td></tr>
+<tr><td>4</td><td>小肋→大肋間距</td><td>第 5 章載重鏈</td><td>角材尺寸與容許值</td></tr>
+<tr><td>5</td><td>承壓檢核</td><td>第 4 章 F<sub>c⊥</sub></td><td>無</td></tr>
+<tr><td>6</td><td>大肋→繫結器間距、繫結器拉力</td><td>第 5 章、繫結器安全係數</td><td>繫結器安全荷重</td></tr>
+<tr><td>7</td><td>斜撐檢核</td><td>斜撐最小水平力、風壓</td><td>風壓、斜撐配置</td></tr>
+<tr><td>8</td><td>輸出計算書與施工限制條件</td><td>文件範本 A</td><td>無</td></tr>
+</tbody></table></div>
+<figure class="figure-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 640" role="img" aria-label="任務追蹤設計牆模" font-family="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif" style="width:100%;height:auto;display:block"><defs><marker id="f8-ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2C5F8A"/></marker><marker id="f8-ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8A96A3"/></marker><marker id="f8-ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#D4450C"/></marker></defs><rect width="720" height="640" fill="#FFFFFF"/><text x="210" y="22" font-size="13" font-weight="700" fill="#2C5F8A" text-anchor="middle">作業順序（主檔作業流程）</text><text x="560" y="22" font-size="13" font-weight="700" fill="#8A96A3" text-anchor="middle">缺漏時詢問</text><rect x="60" y="38" width="300" height="50" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="210.0" y="58.7" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">0 判斷依據</text><text x="210.0" y="76.7" font-size="11.5" font-weight="400" fill="#FFFFFF" text-anchor="middle">第 131 條門檻、契約 03110 版本</text><path d="M210,88 L210,102" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f8-ab)"/><rect x="420" y="43" width="280" height="40" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="560.0" y="67.3" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">支撐高度、面積、契約版本</text><path d="M360,63 L420,63" fill="none" stroke="#8A96A3" stroke-width="1"/><rect x="60" y="104" width="300" height="50" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="210.0" y="124.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">1 分類牆或柱</text><text x="210.0" y="142.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">K3-01</text><path d="M210,154 L210,168" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f8-ab)"/><rect x="420" y="109" width="280" height="40" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="560.0" y="133.3" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">平面尺寸</text><path d="M360,129 L420,129" fill="none" stroke="#8A96A3" stroke-width="1"/><rect x="60" y="170" width="300" height="50" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="210.0" y="190.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">2 計算側壓力</text><text x="210.0" y="208.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">K3-02～K3-10</text><path d="M210,220 L210,234" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f8-ab)"/><rect x="420" y="175" width="280" height="40" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="560.0" y="199.3" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">R（或泵送量）、T、單位重、摻料</text><path d="M360,195 L420,195" fill="none" stroke="#8A96A3" stroke-width="1"/><rect x="60" y="236" width="300" height="50" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="210.0" y="256.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">3 面板容許跨距 → 小肋間距</text><text x="210.0" y="274.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">第 4、5 章面板檢核</text><path d="M210,286 L210,300" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f8-ab)"/><rect x="420" y="241" width="280" height="40" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="560.0" y="265.3" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">面板材料容許值與來源</text><path d="M360,261 L420,261" fill="none" stroke="#8A96A3" stroke-width="1"/><rect x="60" y="302" width="300" height="50" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="210.0" y="322.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">4 小肋 → 大肋間距</text><text x="210.0" y="340.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">第 5 章載重鏈</text><path d="M210,352 L210,366" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f8-ab)"/><rect x="420" y="307" width="280" height="40" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="560.0" y="331.3" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">角材尺寸與容許值</text><path d="M360,327 L420,327" fill="none" stroke="#8A96A3" stroke-width="1"/><rect x="60" y="368" width="300" height="50" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="210.0" y="388.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">5 承壓檢核</text><text x="210.0" y="406.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">第 4 章 Fc⊥</text><path d="M210,418 L210,432" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f8-ab)"/><rect x="60" y="434" width="300" height="50" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="210.0" y="454.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">6 大肋 → 繫結器間距與拉力</text><text x="210.0" y="472.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">繫結器安全係數</text><path d="M210,484 L210,498" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f8-ab)"/><rect x="420" y="439" width="280" height="40" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="560.0" y="463.3" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">繫結器安全荷重</text><path d="M360,459 L420,459" fill="none" stroke="#8A96A3" stroke-width="1"/><rect x="60" y="500" width="300" height="50" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="210.0" y="520.7" font-size="13" font-weight="700" fill="#1C2331" text-anchor="middle">7 斜撐檢核</text><text x="210.0" y="538.7" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="middle">斜撐最小水平力、風壓</text><path d="M210,550 L210,564" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f8-ab)"/><rect x="420" y="505" width="280" height="40" rx="5" fill="#FFFFFF" stroke="#8A96A3" stroke-width="1.0" stroke-dasharray="4 3"/><text x="560.0" y="529.3" font-size="12" font-weight="400" fill="#1C2331" text-anchor="middle">風壓、斜撐配置</text><path d="M360,525 L420,525" fill="none" stroke="#8A96A3" stroke-width="1"/><rect x="60" y="566" width="300" height="50" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="210.0" y="586.7" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">8 輸出計算書</text><text x="210.0" y="604.7" font-size="11.5" font-weight="400" fill="#FFFFFF" text-anchor="middle">文件範本 A、施工限制條件</text></svg><figcaption>圖9　以任務追蹤法建立的設計牆模流程，右側虛線框為各步驟缺資料時要向使用者詢問的項目</figcaption></figure>
+<p>這張流程表在模板大師中轉成方法檔 P6「牆模設計程序」、Claude 版 design 子指令的計算順序（欄位不齊時程式列出待填並停止），以及主檔缺漏資訊處理的詢問項目。</p>
+
+<h3 id="s4-6">4.6 單一單元的端到端追蹤</h3>
+<p>以牆模側壓力為例，追蹤一組知識單元走完六步驟後出現在 Skill 的哪些位置（表15、圖10）。從第 3 章拆出的 10 個單元，最後落在 Claude 版主檔 F1 的五列決策表、三個平台各自的核心規則、方法檔 P1、pressure 子指令與審查表的勘誤清單；verify 逐格重算表 3-3～3-5 時，查出 3 格表值勘誤（E-01～E-03）。</p>
+<p class="cap">表15　側壓力單元的足跡</p>
+<div class="table-wrap"><table>
+<thead><tr><th>步驟</th><th>處理</th><th>結果</th></tr></thead>
+<tbody>
+<tr><td>一 定任務</td><td>任務「計算牆模側壓力」需要此單元</td><td>列入範圍</td></tr>
+<tr><td>二 拆</td><td>第 3 章拆出 K3-01～K3-10</td><td>10 個單元</td></tr>
+<tr><td>三 分、濃</td><td>公式進方法檔 P1 與程式；條件成為決策表；係數表進速查表與 formwork_tables.json；例題成為回歸驗證項目</td><td>Claude 版主檔 F1 五列</td></tr>
+<tr><td>四 接</td><td>置於牆模設計程序 P6 第 1 步；缺 R、T、摻料時詢問；英制常數改為 SI（P0）</td><td>P6 程序、design 輸入欄位</td></tr>
+<tr><td>五 封裝</td><td>Claude 版 F1 五列與 pressure 子指令；Gemini 版核心規則表 7 列；ChatGPT 專案版核心規則 1 條</td><td>三平台版本</td></tr>
+<tr><td>六 測試</td><td>verify 重現例題 3-1～3-6；表 3-3～3-5 逐格重算</td><td>驗證通過；表值勘誤 3 格</td></tr>
+</tbody></table></div>
+<figure class="figure-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" role="img" aria-label="側壓力單元的端到端追蹤" font-family="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif" style="width:100%;height:auto;display:block"><defs><marker id="f9-ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2C5F8A"/></marker><marker id="f9-ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8A96A3"/></marker><marker id="f9-ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#D4450C"/></marker></defs><rect width="720" height="500" fill="#FFFFFF"/><text x="105" y="22" font-size="13" font-weight="700" fill="#2C5F8A" text-anchor="middle">步驟</text><text x="365" y="22" font-size="13" font-weight="700" fill="#2C5F8A" text-anchor="middle">處理</text><text x="625" y="22" font-size="13" font-weight="700" fill="#2C5F8A" text-anchor="middle">結果</text><rect x="30" y="38" width="150" height="56" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="105.0" y="70.9" font-size="13.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">一 定任務</text><rect x="200" y="38" width="330" height="56" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="365.0" y="70.5" font-size="12.5" font-weight="400" fill="#1C2331" text-anchor="middle">任務「計算牆柱側壓力」需要此單元</text><rect x="550" y="38" width="150" height="56" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="625.0" y="70.5" font-size="12.5" font-weight="400" fill="#1C2331" text-anchor="middle">列入範圍</text><path d="M180,66 L198,66" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><path d="M530,66 L548,66" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><path d="M105,94 L105,112" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><rect x="30" y="114" width="150" height="56" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="105.0" y="146.9" font-size="13.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">二 拆</text><rect x="200" y="114" width="330" height="56" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="365.0" y="146.5" font-size="12.5" font-weight="400" fill="#1C2331" text-anchor="middle">第 3 章拆出 K3-01～K3-10</text><rect x="550" y="114" width="150" height="56" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="625.0" y="146.5" font-size="12.5" font-weight="400" fill="#1C2331" text-anchor="middle">10 個單元</text><path d="M180,142 L198,142" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><path d="M530,142 L548,142" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><path d="M105,170 L105,188" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><rect x="30" y="190" width="150" height="56" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="105.0" y="222.9" font-size="13.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">三 分、濃</text><rect x="200" y="190" width="330" height="56" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="365.0" y="213.8" font-size="12.5" font-weight="400" fill="#1C2331" text-anchor="middle">公式→patterns P1＋程式；條件→決策表</text><text x="365.0" y="231.2" font-size="11.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">係數表→速查表；例題→回歸驗證</text><rect x="550" y="190" width="150" height="56" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="625.0" y="222.5" font-size="12.5" font-weight="400" fill="#1C2331" text-anchor="middle">Claude 版 F1 五列</text><path d="M180,218 L198,218" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><path d="M530,218 L548,218" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><path d="M105,246 L105,264" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><rect x="30" y="266" width="150" height="56" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="105.0" y="298.9" font-size="13.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">四 接</text><rect x="200" y="266" width="330" height="56" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="365.0" y="289.8" font-size="12.5" font-weight="400" fill="#1C2331" text-anchor="middle">置於 P6 牆模設計程序第 1 步</text><text x="365.0" y="307.2" font-size="11.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">缺 R、T、摻料時詢問；英制常數改 SI</text><rect x="550" y="266" width="150" height="56" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="625.0" y="298.5" font-size="12.5" font-weight="400" fill="#1C2331" text-anchor="middle">P6 程序、design 輸入</text><path d="M180,294 L198,294" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><path d="M530,294 L548,294" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><path d="M105,322 L105,340" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><rect x="30" y="342" width="150" height="56" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="105.0" y="374.9" font-size="13.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">五 封裝</text><rect x="200" y="342" width="330" height="56" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="365.0" y="365.8" font-size="12.5" font-weight="400" fill="#1C2331" text-anchor="middle">Claude F1＋pressure；Gemini 規則表 7 列</text><text x="365.0" y="383.2" font-size="11.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">ChatGPT 核心規則 1 條</text><rect x="550" y="342" width="150" height="56" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="625.0" y="374.5" font-size="12.5" font-weight="400" fill="#1C2331" text-anchor="middle">三平台版本</text><path d="M180,370 L198,370" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><path d="M530,370 L548,370" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><path d="M105,398 L105,416" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><rect x="30" y="418" width="150" height="56" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="105.0" y="450.9" font-size="13.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">六 測試</text><rect x="200" y="418" width="330" height="56" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.2"/><text x="365.0" y="441.8" font-size="12.5" font-weight="400" fill="#1C2331" text-anchor="middle">verify 重現例題 3-1～3-6</text><text x="365.0" y="459.2" font-size="11.0" font-weight="400" fill="#3D4D5C" text-anchor="middle">表 3-3～3-5 逐格重算</text><rect x="550" y="418" width="150" height="56" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.4"/><text x="625.0" y="450.5" font-size="12.5" font-weight="400" fill="#1C2331" text-anchor="middle">勘誤 E-01～E-03</text><path d="M180,446 L198,446" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/><path d="M530,446 L548,446" fill="none" stroke="#2C5F8A" stroke-width="1.4" marker-end="url(#f9-ab)"/></svg><figcaption>圖10　牆模側壓力單元由原書第 3 章到三平台 Skill 的端到端追蹤</figcaption></figure>
+
+<h3 id="s4-7">4.7 蒸餾成果　模板大師 Skill 三平台版本</h3>
+<p>六步驟的產出最後組成 Skill「design-build-review-concrete-formwork」（顯示名稱模板大師，版本 1.1.0，整理日期 2026 年 11 月 10 日）<a class="ref" href="#ref8">[8]</a>，並依平台能否執行程式封裝為三個版本（表16）。三個版本共用同一組知識內容，10 個參考檔逐檔比對後大小一致；平台專屬的只有主檔或指示的寫法、計算執行方式與打包形式。Claude 版與 Gemini 版採用平台的 Skill 機制，兩者都以 SKILL.md 為核心並可上傳 ZIP 套件<a class="ref" href="#ref3">[3,9]</a>；ChatGPT 版採用 Project 指示加知識檔，本報告稱為 ChatGPT 專案版。ChatGPT 另有原生 Skills 功能，目前開放給 Business、Enterprise、Healthcare、Edu 等方案<a class="ref" href="#ref10">[10]</a>，模板大師尚未改用。</p>
+<p class="cap">表16　模板大師 Skill 三平台版本比較</p>
+<div class="table-wrap"><table>
+<thead><tr><th>項目</th><th>Claude Skill 版</th><th>Gemini Skill 版</th><th>ChatGPT 專案版</th></tr></thead>
+<tbody>
+<tr><td>主檔</td><td>SKILL.md，142 行</td><td>SKILL.md，75 行</td><td>Project 指示 instructions.md，37 行</td></tr>
+<tr><td>核心框架</td><td>F0 法規要點至 F5 施工與拆模，側壓力為 F1 五列決策表</td><td>核心規則表 19 列，側壓力占 7 列</td><td>核心規則 8 條，側壓力 1 條</td></tr>
+<tr><td>參考內容</td><td>references/ 10 檔</td><td>references/ 10 檔</td><td>合併為 4 個知識檔，另附 source_tables.pdf</td></tr>
+<tr><td>計算方式</td><td>scripts/formwork_calc.py（617 行，14 個子指令）讀取 formwork_tables.json</td><td>不執行程式，依 patterns.md 逐式列出公式、代入與結果</td><td>程式原始碼收在知識檔，於 Code Interpreter 重建後執行</td></tr>
+<tr><td>範例</td><td>examples/ 10 檔，含台灣牆模、板模輸入範本與原書例題輸入輸出</td><td>無</td><td>無</td></tr>
+<tr><td>驗證</td><td>verify 回歸驗證 103 項</td><td>無程式驗證</td><td>重建後先執行 verify，確認 103 項通過</td></tr>
+</tbody></table></div>
+<p>Claude 版最完整，檔案構成如圖11。主檔依序為摘要、使用時機、作業步驟、核心框架 F0～F5、參考檔索引、子指令表、缺漏資訊處理、注意事項與範圍限制，共 142 行，低於 500 行的建議上限。計算程式的 14 個子指令（表17）涵蓋第 3～13 章的主要計算，數值只由程式產生，主檔不寫數值結果。</p>
+<figure class="figure-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" role="img" aria-label="模板大師Claude版構成" font-family="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif" style="width:100%;height:auto;display:block"><defs><marker id="f10-ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2C5F8A"/></marker><marker id="f10-ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8A96A3"/></marker><marker id="f10-ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#D4450C"/></marker></defs><rect width="720" height="520" fill="#FFFFFF"/><rect x="20" y="12" width="330" height="40" rx="5" fill="#2C5F8A" stroke="#2C5F8A" stroke-width="1.4"/><text x="185.0" y="36.7" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">design-build-review-concrete-formwork/</text><rect x="45" y="70" width="300" height="139" rx="5" fill="#EAF1F7" stroke="#2C5F8A" stroke-width="1.3"/><text x="59" y="92" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="start">SKILL.md（主檔，142 行）</text><text x="71" y="116" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">・Summary、When to Use、Steps</text><text x="71" y="137" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">・核心框架 F0～F5（F1 側壓力 5 列）</text><text x="71" y="158" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">・參考檔索引（13 項，何時讀取）</text><text x="71" y="179" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">・formwork_calc.py 子指令表（14 個）</text><text x="71" y="200" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">・缺漏資訊處理、Gotchas、範圍限制</text><rect x="45" y="225" width="300" height="97" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.3"/><text x="59" y="247" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="start">scripts/</text><text x="71" y="271" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">・formwork_calc.py（617 行，SI）</text><text x="71" y="292" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">・formwork_tables.json（材料表公制轉錄）</text><text x="71" y="313" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">・verify：原書例題與表值 103 項</text><rect x="45" y="338" width="300" height="76" rx="5" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1.3"/><text x="59" y="360" font-size="13.5" font-weight="700" fill="#1C2331" text-anchor="start">examples/（10 檔）</text><text x="71" y="384" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">・台灣範本 template_tw_wall／slab.json</text><text x="71" y="405" font-size="12" font-weight="400" fill="#3D4D5C" text-anchor="start">・原書例題輸入與計算書輸出（牆、柱、板）</text><path d="M30,90 L45,90" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><path d="M30,245 L45,245" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><path d="M30,358 L45,358" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><text x="375" y="70" font-size="13.5" font-weight="700" fill="#2C5F8A" text-anchor="start">references/（三平台共用內容）</text><path d="M365,97 L380,97" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="380" y="82" width="320" height="30" rx="4" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1"/><text x="392" y="102" font-size="12" font-weight="700" fill="#1C2331" text-anchor="start">tw_basis.md</text><text x="690" y="102" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="end">依據層級、TW-L／S、待核 TW-P</text><path d="M365,134 L380,134" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="380" y="119" width="320" height="30" rx="4" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1"/><text x="392" y="139" font-size="12" font-weight="700" fill="#1C2331" text-anchor="start">cheatsheet.md</text><text x="690" y="139" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="end">12 節速查</text><path d="M365,171 L380,171" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="380" y="156" width="320" height="30" rx="4" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1"/><text x="392" y="176" font-size="12" font-weight="700" fill="#1C2331" text-anchor="start">patterns.md</text><text x="690" y="176" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="end">P0 換算、P1～P16 方法</text><path d="M365,208 L380,208" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="380" y="193" width="320" height="30" rx="4" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1"/><text x="392" y="213" font-size="12" font-weight="700" fill="#1C2331" text-anchor="start">glossary.md</text><text x="690" y="213" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="end">中英術語</text><path d="M365,245 L380,245" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="380" y="230" width="320" height="30" rx="4" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1"/><text x="392" y="250" font-size="12" font-weight="700" fill="#1C2331" text-anchor="start">chapters_01_07.md</text><text x="690" y="250" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="end">第 1～7 章摘要</text><path d="M365,282 L380,282" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="380" y="267" width="320" height="30" rx="4" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1"/><text x="392" y="287" font-size="12" font-weight="700" fill="#1C2331" text-anchor="start">chapters_08_13.md</text><text x="690" y="287" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="end">第 8～13 章摘要</text><path d="M365,319 L380,319" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="380" y="304" width="320" height="30" rx="4" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1"/><text x="392" y="324" font-size="12" font-weight="700" fill="#1C2331" text-anchor="start">chapters_14_17_appendix.md</text><text x="690" y="324" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="end">第 14～17 章、附錄</text><path d="M365,356 L380,356" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="380" y="341" width="320" height="30" rx="4" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1"/><text x="392" y="361" font-size="12" font-weight="700" fill="#1C2331" text-anchor="start">templates.md</text><text x="690" y="361" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="end">範本 A、B、C</text><path d="M365,393 L380,393" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="380" y="378" width="320" height="30" rx="4" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1"/><text x="392" y="398" font-size="12" font-weight="700" fill="#1C2331" text-anchor="start">review_checklist.md</text><text x="690" y="398" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="end">R1～R5、勘誤 E-01～E-15</text><path d="M365,430 L380,430" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><rect x="380" y="415" width="320" height="30" rx="4" fill="#FFFFFF" stroke="#2C5F8A" stroke-width="1"/><text x="392" y="435" font-size="12" font-weight="700" fill="#1C2331" text-anchor="start">source_tables.pdf</text><text x="690" y="435" font-size="11.5" font-weight="400" fill="#3D4D5C" text-anchor="end">原書表原頁（英制）</text><path d="M365,97 L365,430" fill="none" stroke="#2C5F8A" stroke-width="1.4"/><path d="M30,52 L30,500 L365,500 L365,97" fill="none" stroke="#2C5F8A" stroke-width="1.4"/></svg><figcaption>圖11　模板大師 Claude 版 Skill 的檔案構成，Gemini Skill 版與 ChatGPT 專案版共用同一組參考內容</figcaption></figure>
+<p class="cap">表17　Claude 版計算程式 formwork_calc.py 子指令</p>
+<div class="table-wrap"><table>
+<thead><tr><th>子指令</th><th>用途</th><th>對應方法檔</th></tr></thead>
+<tbody>
+<tr><td>pressure、rate</td><td>牆柱側壓力（kPa）；由泵送量求澆置速率（m/h）</td><td>P1</td></tr>
+<tr><td>slabload</td><td>樓板垂直載重（kPa）</td><td>P2</td></tr>
+<tr><td>stress、span、ply</td><td>原書木材容許應力（比較用）；角材與木梁容許跨距；面板容許跨距（mm）</td><td>P3～P5</td></tr>
+<tr><td>shore、brace</td><td>木支柱容量（kN）；斜撐最小側力與軸力</td><td>P9、P10</td></tr>
+<tr><td>impact、yoke、shell</td><td>落料衝擊與料車水平力；木柱箍斷面模數；薄殼幾何</td><td>P11、P7、P14</td></tr>
+<tr><td>strip</td><td>結構混凝土施工規範表 4.7.1 最少拆模時間</td><td>P13</td></tr>
+<tr><td>design</td><td>牆、柱、板整體設計，輸出 Markdown 與 JSON 計算書</td><td>P6～P8</td></tr>
+<tr><td>verify</td><td>原書例題與表值回歸驗證</td><td>全部</td></tr>
+</tbody></table></div>
+<p>以 Claude 版程式實際執行 verify，103 項全數通過，並列出 Table 3-3～3-5 中 3 格表值與公式不符，與勘誤 E-01～E-03 一致。以原書第 5 章牆模例的條件（牆高 3.66 m、<i>R</i>＝1.83 m/h、<i>T</i>＝26.7 °C）執行 pressure 子指令，得到 39.5 kPa，與方法檔 P6 記錄的原書驗證例相同。</p>
+<p>使用者提出「設計牆模」時，Claude 版先列輸入條件確認表，缺項先詢問；資料齊全後以 design 子指令計算，依範本 A 撰寫計算書，並標註每一數值的 TW 編號、契約或原書式號來源。Gemini 版改為逐式列出，ChatGPT 專案版先重建程式並執行 verify。</p>
+<p>三個版本檢視後發現一處跨檔不一致。牆側壓的澆置速率門檻，在三個版本的主檔與計算程式中都寫 2.13 m/h 與 4.57 m/h，共用的 patterns.md 與 cheatsheet.md 則寫 2.1 m/h 與 4.6 m/h，兩者只差在取整位數；三個版本已統一為 2.13 m/h 與 4.57 m/h，各修正 11 處。這類不一致無法靠例題重現發現，須在 T1 中另做跨檔比對。統一時依第 3.4 節的換算原則，同時記錄原始值、精確值與顯示值（表18）。</p>
+<p class="cap">表18　牆側壓門檻的換算紀錄</p>
+<div class="table-wrap"><table>
+<thead><tr><th>項目</th><th>原始值</th><th>精確換算值</th><th>顯示值</th><th>程式判斷用值</th></tr></thead>
+<tbody>
+<tr><td>澆置速率下限門檻</td><td>7 ft/h</td><td>2.1336 m/h</td><td>2.13 m/h</td><td>7×0.3048（完整精度）</td></tr>
+<tr><td>澆置速率上限門檻</td><td>15 ft/h</td><td>4.572 m/h</td><td>4.57 m/h</td><td>15×0.3048（完整精度）</td></tr>
+<tr><td>澆置高度門檻</td><td>14 ft</td><td>4.2672 m</td><td>4.27 m</td><td>14×0.3048（完整精度）</td></tr>
+</tbody></table></div>
+
+<h3 id="s4-8">4.8 驗證結果</h3>
+<p>本報告取得的測試紀錄為 T1 數值驗證與跨檔比對；T2～T6 未留下可供引用的完整紀錄，列為後續工作。T1 的結果如表19。103 項回歸驗證與 15 項勘誤並不衝突，103 項比對的是程式結果與原書正確的印刷值，已確認有誤的表值不計入，另行列出。</p>
+<p class="cap">表19　模板大師 T1 數值驗證成果</p>
+<div class="table-wrap"><table>
+<thead><tr><th>項目</th><th>內容</th></tr></thead>
+<tbody>
+<tr><td>一項驗證的定義</td><td>一個原書印刷數值（例題答案或表值），由程式以 SI 計算後換回原書單位比對</td></tr>
+<tr><td>容許差</td><td>相對差 1%；原書值小於 50 時另允許絕對差 0.051，其餘 0.5，取兩者較大值</td></tr>
+<tr><td>通過項目</td><td>103 項全數通過，涵蓋側壓力、木構件、面板、支柱、斜撐與 SI 常數</td></tr>
+<tr><td>不計入的已知錯誤</td><td>Table 3-3～3-5 共 3 格表值與公式不符，程式以公式為準並另行列出（E-01～E-03）</td></tr>
+<tr><td>其他勘誤來源</td><td>例題、表格與前後章交叉核對，共 12 項（E-04～E-15）</td></tr>
+</tbody></table></div>
+<p>15 項勘誤依類型與確認狀態整理如表20。待核的 3 項屬於文字層缺損或原書引用無法單獨判定，須以原頁或原始資料核對，不能直接當成已證實的錯誤。</p>
+<p class="cap">表20　原書勘誤的類型與確認狀態</p>
+<div class="table-wrap"><table>
+<thead><tr><th>類型</th><th>編號</th><th>項數</th><th>狀態</th></tr></thead>
+<tbody>
+<tr><td>表值與公式不符</td><td>E-01～E-03</td><td>3</td><td>已確認，以公式為準</td></tr>
+<tr><td>例題內部數值不一致或與他處不同</td><td>E-04～E-08、E-12、E-15</td><td>7</td><td>已確認，依計算值或國內規定</td></tr>
+<tr><td>單位或引用誤植</td><td>E-09、E-10</td><td>2</td><td>已確認</td></tr>
+<tr><td>文字層缺損或引用待核</td><td>E-11、E-13、E-14</td><td>3</td><td>待核，以原頁核對</td></tr>
+</tbody></table></div>
+<p>這些錯誤在閱讀時不易察覺，逐式重算與交叉核對後才浮現；若讓 AI 直接回答數值，錯誤會隨回答一併輸出。案例也暴露一項程序錯誤。初版未在流程結構化時插入使用地依據，v1.1 改為統一公制並以國內法規為首要依據時，必須重新分流受管轄的單元、逐式重推常數、建立依據層級與待核清單，全部參考檔因此重寫。本報告將本地化查證固定在步驟四的每一步插入，即來自這次經驗。</p>
+</section>
+
+<section class="section" id="s5">
+<div class="section-number">第五章</div>
+<h2>五、討論</h2>
+<h3 id="s5-1">5.1 常見錯誤與避免方法</h3>
+<p>蒸餾過程中最常見的錯誤集中在順序與驗證兩類（表21）。順序類錯誤讓 Skill 不知道先做什麼，驗證類錯誤讓數值看似完整卻沒有依據。</p>
+<p class="cap">表21　蒸餾過程常見錯誤</p>
+<div class="table-wrap"><table>
+<thead><tr><th>錯誤</th><th>造成的結果</th><th>避免方法</th></tr></thead>
+<tbody>
+<tr><td>沒有任務清單就開始讀</td><td>變成全書摘要，Skill 不知道要做什麼</td><td>先完成步驟一</td></tr>
+<tr><td>依章節順序寫主檔</td><td>主檔像目錄，AI 不知道先做什麼</td><td>主檔依任務流程組織</td></tr>
+<tr><td>只抄公式，不抄適用條件</td><td>用錯公式</td><td>公式與條件、夾限一起拆</td></tr>
+<tr><td>把原因說明整段放進主檔</td><td>主檔冗長</td><td>主檔留一行，完整原因與例外留在參考檔</td></tr>
+<tr><td>刪掉推導時連同適用條件一起刪</td><td>遇到例外時判斷錯誤</td><td>以單元五問的第五問保留限制與例外</td></tr>
+<tr><td>失敗案例只寫成故事</td><td>審查時用不到</td><td>轉成檢核項與反模式</td></tr>
+<tr><td>本地化事後才補</td><td>參考檔全部重寫</td><td>在步驟四每一步插入依據查證</td></tr>
+<tr><td>數字由 AI 直接回答</td><td>數值無法驗證</td><td>依程式化原則寫成程式，並交叉驗證</td></tr>
+<tr><td>以顯示用的取整值判斷臨界條件</td><td>門檻附近分支錯誤</td><td>程式用完整精度，文件註明顯示值</td></tr>
+<tr><td>缺資料時用預設值</td><td>結果看似完整但沒有依據</td><td>流程表寫明缺漏時詢問</td></tr>
+<tr><td>發現書籍錯誤就直接改</td><td>失去出處的可追溯性</td><td>列勘誤，保留原印刷值</td></tr>
+</tbody></table></div>
+<h3 id="s5-2">5.2 方法的適用邊界</h3>
+<p>本方法整理自模板大師單一案例，原書屬於公式、表格與例題密集的設計手冊。步驟六的例題重現依賴書籍中有足夠例題作為比對基準，若原書例題很少，數值驗證只能改用規範算例或獨立手算，驗證強度會下降。附錄表A1 的登錄表為本報告建議的做法，模板大師製作時實際以章節摘要與驗證項目直接記錄，登錄表的效益仍待後續案例確認。模板大師留下的測試紀錄只有 T1 與跨檔比對，T2～T6 與盲測尚待補做，三個平台版本也未以同一批題目比較回答品質。</p>
+<h3 id="s5-3">5.3 著作權與專業責任</h3>
+<p>持有原書不等於取得重製、掃描、散布或跨平台上傳原書內容的授權。蒸餾成果以必要的技術摘述為原則，原書內容不大段引用；原表頁檔如 source_tables.pdf 只供持有原書者核對，使用前應確認授權範圍，對外分享 Skill 時須排除未獲授權的原書頁面。勘誤資料記錄頁碼、表號、印刷值與判斷依據，不重製原書段落。</p>
+<p>專業責任方面，<span class="law-cite">《營造安全衛生設施標準》第 131 條第 1 款</span>規範高度 7 m 以上且面積達 330 m² 以上之模板支撐的構築及拆除，應事先由所僱專任工程人員或委由相關執業技師依結構力學原理設計，置備施工圖說及強度計算書，經簽章確認後據以執行<a class="ref" href="#ref5">[5]</a>。未達此門檻的模板支撐，仍須依同條第 2 款及其他適用規定辦理。Skill 產出的模板支撐計算資料屬工程輔助成果，<span class="accent-bold">不取代法定設計責任</span>；屬第 131 條規範的工程，依該條辦理設計、施工圖說、強度計算書與簽章確認，其他工程依適用法令、契約與工程專業要求辦理。</p>
+<h3 id="s5-4">5.4 工程 AI Skill 的風險分級</h3>
+<p>Skill 能做的工作從查詢到設計都有，出錯的後果差別很大，本報告依風險分為三級（表22）。第三級工作須設定人工專業審查關卡，並保存設計依據、計算程式版本、輸入資料與審查紀錄，讓每一份正式採用的成果都能追溯到審查人與依據版本。</p>
+<p class="cap">表22　工程 AI Skill 的風險分級</p>
+<div class="table-wrap"><table>
+<thead><tr><th>等級</th><th>工作範圍</th><th>模板大師的例子</th><th>管理方式</th></tr></thead>
+<tbody>
+<tr><td>第一級 資訊輔助（低風險）</td><td>技術資料查詢、名詞解釋、條文整理、文件格式整理</td><td>查術語、查拆模時間表、整理計算書章節</td><td>使用者自行核對出處</td></tr>
+<tr><td>第二級 工程分析（中風險）</td><td>材料與構件計算、施工風險辨識、缺失審查</td><td>側壓力計算、面板與小肋間距、審查表 R1～R5</td><td>每一數值標明依據與版本，由工程師核算</td></tr>
+<tr><td>第三級 設計與安全決策（高風險）</td><td>模板支撐系統設計、結構安全判定、拆模與施工階段決策、正式計算書與施工圖說</td><td>第 131 條規範之模板支撐設計、拆模時機判定</td><td>人工專業審查關卡，保存依據、程式版本、輸入與審查紀錄，依法簽章</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="section" id="s6">
+<div class="section-number">第六章</div>
+<h2>六、結論</h2>
+<ol class="conclusion">
+<li>技術手冊轉為 Skill 的關鍵，在於把書籍的解釋順序改寫為任務的執行順序。本報告的六步驟方法以任務清單限定範圍，以知識單元與單元五問拆解內容，以分流矩陣與改寫句型決定去處，以任務追蹤法接成流程，再依載入機制封裝，並以數值、邏輯、邊界、缺漏、法規與工程情境六類測試驗證。</li>
+<li>模板大師案例中，原書第 3 章約 19 頁濃縮為 Claude 版主檔 F1 的五列決策表，其餘內容分流至速查表、方法檔、計算程式與審查表。計算程式回歸驗證原書例題與表值 103 項全數通過，另記錄 15 項原書勘誤，其中 12 項已確認、3 項待核。程式化計算仍須輸入、單位與適用條件檢核，並以獨立方法交叉驗證。</li>
+<li>本地化查證須在步驟四的每一步插入，並記錄依據的層級與版本。模板大師在 v1.1 才補做，導致全部參考檔重寫；跨檔的換算取整不一致，也只有跨檔比對才查得出。</li>
+<li>Skill 的成果屬工程輔助，第三級的設計與安全決策須經人工專業審查並依法簽章。</li>
+</ol>
+</section>
+
+<section class="section" id="apx">
+<div class="section-number">附錄</div>
+<h2>附錄</h2>
+<h3 id="apx-a">附錄A　作業表單</h3>
+<p>知識單元登錄表以試算表或 CSV 建立，作為步驟二到步驟六的共同底稿（表A1，範例列為示範用，頁碼以原書為準）。每件任務另填一張任務流程表（表A2），各步驟完成時依表A3 核對。</p>
+<p class="cap">表A1　知識單元登錄表欄位與範例</p>
+<pre class="code">編號,出處,類型,內容摘述,五問摘要,去留,改寫形式,去處,本地化,驗證項目,狀態
+K3-03,p.24 Eq.3-2,公式,牆模側壓式（R 低、高度小）,選式；R&lt;2.13 m/h 且 h≤4.27 m；超出改用 K3-04,留,式子＋條件＋夾限,patterns P1／pressure,03110 引用 ACI 347,Ex3-1,完成
+K3-05,第 3 章,決策條件,取 γh 的情形,R 大、坍度大、深振動、自充填；不得採公式值,留,決策表一列,主檔 F1,無,Ex3-2,完成
+K3-08,Table 3-2,數值表,化學係數 Cc,輸入水泥種類與摻料比例；緩凝時不得取 1.0,留,轉錄 JSON＋速查表,formwork_tables.json／cheatsheet,無,抽格重算,完成
+K7-01,第 7 章,失敗案例,模板失敗原因,審查計算書與現場；過度振動、未夾限為倒塌原因,留,檢核問題,review_checklist R1～R4,營造安全衛生設施標準,無,完成
+K3-B1,第 3 章,背景,側壓力研究沿革,五問皆答不出,刪,無,無,無,無,完成</pre>
+<p class="cap">表A2　任務流程表範本</p>
+<pre class="code">任務：&lt;動詞＋對象＋條件&gt;
+| 順序 | 動作 | 用到的知識單元 | 依據（使用地） | 缺漏時詢問 | 輸出 |
+|------|------|----------------|----------------|------------|------|
+| 0    |      |                |                |            |      |</pre>
+<p class="cap">表A3　各步驟完成檢查</p>
+<div class="table-wrap"><table>
+<thead><tr><th>步驟</th><th>完成條件</th></tr></thead>
+<tbody>
+<tr><td>一 定任務</td><td>任務清單涵蓋常做的工作類型且列不出新任務；每件對應到章節或外部補充清單</td></tr>
+<tr><td>二 拆知識單元</td><td>任務相關章節全部以單元五問拆完；例題全部登錄</td></tr>
+<tr><td>三 分流與濃縮</td><td>每個單元有去處或刪除理由；受管轄單元已標記</td></tr>
+<tr><td>四 接成流程</td><td>每件任務有流程表；每一步有缺漏處理與本地依據，依據已記錄層級與版本</td></tr>
+<tr><td>五 封裝</td><td>主檔只含觸發、流程、核心決策表、索引、缺漏處理、常見錯誤；內容語意與參考檔一致</td></tr>
+<tr><td>六 測試與迭代</td><td>T1～T5 合格；T6 已完成或已註明尚未進行</td></tr>
+</tbody></table></div>
+
+<h3 id="apx-b">附錄B　book-to-skill Skill</h3>
+<p>book-to-skill 是把第三章的六步驟方法直接封裝成的 Skill，也是本報告方法的一個實作，可以帶領工程師蒸餾其他書籍。它依本報告撰寫，並非以六步驟從某一本書蒸餾而來。使用時由 AI 依序帶著完成每一步，每步結束先交出產出檔，經確認後才進入下一步。資料夾構成如表B1，主檔全文列於其後。</p>
+<p class="cap">表B1　book-to-skill 檔案構成</p>
+<div class="table-wrap"><table>
+<thead><tr><th>檔案</th><th>內容</th><th>何時讀取或執行</th></tr></thead>
+<tbody>
+<tr><td>SKILL.md</td><td>觸發描述、開始前必問、六步驟作業流程與完成條件、單元五問、核心規則、參考檔索引、缺漏處理、常見錯誤</td><td>任務符合時載入</td></tr>
+<tr><td>references/split_matrix.md</td><td>分流矩陣、去留判斷、改寫句型（本報告表4、表5）</td><td>步驟三</td></tr>
+<tr><td>references/flow_and_basis.md</td><td>任務追蹤五問、程式化原則、依據層級、本地化五條規則（本報告表6、表7 與第 3.4 節）</td><td>步驟四</td></tr>
+<tr><td>references/packaging.md</td><td>放置判斷、主檔檢查、三平台差異（本報告表8）</td><td>步驟五</td></tr>
+<tr><td>references/testing.md</td><td>T1～T6 六類測試、評分項目、勘誤四查、回頭修正對照（本報告表9、表10）</td><td>步驟六</td></tr>
+<tr><td>assets/templates.md</td><td>tasks.md、units.csv、任務流程表、basis.md、errata.csv 範本</td><td>建立產出檔前</td></tr>
+<tr><td>scripts/check_units.py</td><td>依步驟檢查登錄表欄位、去處、本地化與驗證項目是否齊全</td><td>每步結束</td></tr>
+</tbody></table></div>
+<p class="cap-pre">SKILL.md 全文</p>
+<pre class="code wrap">---
+name: book-to-skill
+description: 將工程技術手冊、設計手冊或規範解說書蒸餾成可執行的 Skill（SKILL.md＋references/＋scripts/）。依六步驟作業（定任務、拆知識單元、分流與濃縮、接成流程、封裝、測試與迭代）逐步產出任務清單、知識單元登錄表、任務流程表、主檔與參考檔，並以書中例題與六類測試驗證。使用時機：使用者說「把這本書做成 Skill」「蒸餾這本手冊」「書轉 Skill」「把某章整理成 AI 可執行的規則」，或上傳技術書的章節、目錄、例題並要求做成 Skill、Gem、GPT 知識檔時。
+---
+
+# book-to-skill：技術手冊蒸餾為 Skill
+
+把書的「解釋順序」改寫為任務的「執行順序」。留下能讓 AI 判斷與計算的內容，刪除只為幫助理解的內容，再依任務重新排列。
+
+## 開始前必問（缺一不可，一次問完）
+
+1. 書名、版次、作者；使用者是否合法持有原書
+2. 使用地（國家、主管機關）與契約常引用的規範
+3. 目標平台（Claude／Gemini／ChatGPT，可複選）
+4. 本次範圍：全書，或指定章節
+
+未取得回答前，不讀全書、不做摘要。
+
+## 作業流程（每步完成條件未過，不進下一步）
+
+| 步驟 | 動作 | 產出檔 | 完成條件 |
+|---|---|---|---|
+| 一 定任務 | 列「動詞＋對象＋條件」任務（10～20 件為參考值），標計算／撰寫／審查／查詢；對應章節；書中沒有的列外部補充 | `tasks.md` | 涵蓋常做的工作類型且列不出新任務；每件對到章節或外部補充 |
+| 二 拆 | 三遍讀法；以單元五問判斷知識單元；例題記輸入與答案 | `units.csv` | 相關章節拆完；例題全登錄；每單元有出處 |
+| 三 分、濃 | 依分流矩陣決定類型、去留、改寫形式、去處 | `units.csv`（補欄） | 每單元有去處或刪除理由；受管轄者已標待本地化 |
+| 四 接 | 任務追蹤五問；每步填缺漏時詢問與使用地依據（含層級與版本）；依程式化原則決定程式 | `flows/&lt;任務&gt;.md`、`basis.md` | 每件任務有流程表；每步有缺漏處理與依據 |
+| 五 封裝 | 依放置判斷建立 SKILL.md 與參考檔；內容語意不變，依平台調整寫法與執行方式 | 目標 Skill 資料夾 | 主檔只含觸發、流程、核心決策表、索引、缺漏、常見錯誤；本文 ≤ 500 行 |
+| 六 驗 | T1 數值、T2 邏輯、T3 邊界、T4 缺漏、T5 法規、T6 工程情境 | `verify.md`、`errata.csv` | T1～T5 合格，T6 已完成或已註明未做；不合格依回頭對照表修正 |
+
+每步結束時，執行 `python3 scripts/check_units.py units.csv --step N` 檢查登錄表，並把結果與產出檔一併交給使用者確認。
+
+## 單元五問（判斷一段文字是否為知識單元）
+
+1. 讓讀者能做什麼（判斷、計算、選擇、檢查）
+2. 在什麼條件下適用
+3. 需要什麼輸入
+4. 結果用在哪裡
+5. 有哪些限制、例外、風險與禁止事項
+
+五問是主要判斷工具。五題都答不出者為背景或連接敘述，不列為單元；只答得出第 5 問的安全原則或禁止事項，仍列為單元。
+
+## 核心規則
+
+- 公式一定連同單位、適用條件、夾限、式號一起拆出。
+- 改寫時三樣不改：術語原名；式號、表號、條號；數值與單位。
+- 多變數、重複、查表、複合或高精度的計算寫成程式；簡單代入依風險與平台能力決定，可逐式列出。程式須有輸入、單位與適用條件檢核，結果以例題、規範算例或獨立手算交叉驗證。
+- 使用地法規、條號、版本一律查官方原文，記錄發布或修正日期、生效日期與查證日期；查不到者列入待核，不得憑記憶補寫。
+- 依據分四層記錄：法令強制要求、契約與工程規範、設計方法與技術指南、補充資料。
+- 單位換算保留原始值、精確值與顯示值；程式以完整精度判斷臨界條件。
+- 背景與推導不放主檔；說明適用原因或例外條件者留在參考檔。
+- 原書數值與使用地規定不同時，流程採使用地規定，原書值保留為參考並加註。
+- 缺資料時列出缺漏並詢問，不以預設值補齊。
+- 發現書的錯誤只列勘誤（位置、印刷值、正確值、判斷依據），不改原文。
+- 原書內容只以摘述呈現，不大段引用；持有原書不等於取得重製或上傳授權，原表頁使用前確認授權，對外分享時排除。
+
+## 參考檔索引
+
+| 檔案 | 內容 | 何時讀 |
+|---|---|---|
+| `references/split_matrix.md` | 知識類型分流矩陣、去留判斷、改寫句型 | 步驟三 |
+| `references/flow_and_basis.md` | 任務追蹤五問、程式化原則、依據層級、本地化五條規則 | 步驟四 |
+| `references/packaging.md` | 主檔與參考檔放置判斷、三平台差異 | 步驟五 |
+| `references/testing.md` | T1～T6 六類測試、評分、勘誤四查、回頭修正對照 | 步驟六 |
+| `assets/templates.md` | tasks、units.csv、流程表、basis、errata 範本 | 建立任何產出檔前 |
+| `scripts/check_units.py` | 登錄表欄位與去處完整性檢查 | 每步結束 |
+
+## 缺漏處理
+
+| 缺什麼 | 怎麼做 |
+|---|---|
+| 書的內容（只有書名） | 請使用者上傳目錄與相關章節；不憑記憶重建書的內容 |
+| 使用地依據 | 詢問國家、主管機關、契約規範；仍不明則全部列待核 |
+| 例題答案 | 標示「無驗證基準」，改以規範算例或獨立手算驗證，並告知驗證強度較低 |
+| 平台限制 | 查該平台現行說明；查不到時依 packaging.md 的保守做法 |
+
+## 常見錯誤
+
+- 沒有任務清單就開始讀，結果變成全書摘要。
+- 依章節順序寫主檔，主檔像目錄。
+- 只抄公式、不抄適用條件。
+- 失敗案例只寫成故事，沒有轉成審查檢核項。
+- 本地化事後才補，參考檔全部重寫。
+- 以取整後的顯示值判斷臨界條件。
+- 發現書籍錯誤就直接改，失去出處可追溯性。
+
+## 交付
+
+最後交給使用者：目標 Skill 資料夾（或各平台版本）、`units.csv`、`flows/`、`basis.md`（含待核清單）、`verify.md`、`errata.csv`，並列出仍待使用者查核的法規版本與待核項目。Skill 產出屬工程輔助成果，不取代法定設計責任；設計與安全決策須經人工專業審查，並依法令由專任工程人員或執業技師簽章。</pre>
+<p>主檔開頭的 YAML 欄位已以解析器驗證可正確讀取，欄位內沒有全形空白或定位字元；複製全文建立 SKILL.md 時，<code>---</code> 與欄位名稱須從行首開始。check_units.py 以表A1 的範例列測試，檢查至步驟三全數通過，檢查至步驟六時正確指出缺驗證項目的例題列。本 Skill 尚未以整本書實際走完六步驟，宜先選一章試做。</p>
+<h4>使用方式</h4>
+<ol>
+<li>將 book-to-skill 資料夾壓縮為 ZIP，上傳至平台的 Skill 設定頁；Claude Code 則將資料夾放在 <code>.claude/skills/</code> 目錄下。</li>
+<li>開新對話，上傳原書目錄與要處理的章節，輸入「把《書名》第 3 章做成 Skill」。</li>
+<li>回答 Skill 提出的四個開始前問題，包括書名版次、使用地依據、目標平台與處理範圍。</li>
+<li>每步結束時檢查 Skill 交出的產出檔與 check_units.py 結果，確認後再回覆進入下一步。</li>
+<li>步驟六中 T1～T5 測試合格後，取得目標 Skill 資料夾、依據檔案與勘誤表，並自行查核待核清單中的法規版本。</li>
+</ol>
+</section>
+
+<section class="section" id="refs">
+<h2>參考文獻</h2>
+<ol class="refs">
+<li id="ref1">Peurifoy, R. L., &amp; Oberlender, G. D. (2011). <i>Formwork for Concrete Structures</i> (4th ed.). New York, McGraw-Hill.</li>
+<li id="ref2">ACI Committee 347. (2014, reapproved 2021). <i>Guide to Formwork for Concrete</i> (ACI PRC-347-14(21)，原編號 ACI 347R-14). Farmington Hills, MI, American Concrete Institute.</li>
+<li id="ref3">Anthropic. <i>Agent Skills overview</i>. Claude Platform Docs. https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview（2026 年 11 月 11 日查閱）</li>
+<li id="ref4">Anthropic. <i>Skill authoring best practices</i>. Claude Platform Docs. https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices（2026 年 11 月 11 日查閱）</li>
+<li id="ref5">勞動部（2026）。營造安全衛生設施標準（中華民國 115 年 6 月 30 日修正發布部分條文）。勞動部勞動法令查詢系統，https://laws.mol.gov.tw/FLAW/index-1.aspx?fcode=A005（2026 年 11 月 12 日查閱）</li>
+<li id="ref6">內政部（2021）。結構混凝土施工規範（中華民國110 年 7 月 13 日台內營字第 1100809581 號令修正部分規定，自 110 年 9 月 1 日生效）。https://www.nlma.gov.tw/ch/legislation/regsearch/932</li>
+<li id="ref7">公共工程施工綱要規範第 03110 章「場鑄結構混凝土用模板」，依契約採用版本。本報告比對之版本為內政部國土管理署 2017 年 6 月版、經濟部水利署 103 年 7 月 2 日版、臺北市 TPE V3.0（110 年 10 月 21 日）。</li>
+<li id="ref8">張朝順（2026）。模板大師 Skill（design-build-review-concrete-formwork，v1.1.0，Claude、Gemini、ChatGPT 版）及技術文件 TD-DBRCF-001，未出版。</li>
+<li id="ref9">Google. <i>Create and manage skills</i>. Gemini Enterprise Documentation. https://docs.cloud.google.com/gemini/enterprise/docs/skills（2026 年 11 月 12 日查閱）</li>
+<li id="ref10">OpenAI. <i>Skills in ChatGPT</i>. OpenAI Help Center. https://help.openai.com/en/articles/20001066-skills-in-chatgpt（2026 年 11 月 12 日查閱）</li>
+</ol>
+</section>
+
+</main></div>
+<button class="toc-fab" aria-label="開啟目錄" aria-controls="toc" aria-expanded="false">目錄</button><div class="toc-backdrop"></div>
+<footer><b>作者　張朝順 PhD/PE</b><br>作者提示：個人觀點，僅供參考。<br>仍須依現行法規、契約規定與專業判斷辦理。</footer>
+</body></html>
